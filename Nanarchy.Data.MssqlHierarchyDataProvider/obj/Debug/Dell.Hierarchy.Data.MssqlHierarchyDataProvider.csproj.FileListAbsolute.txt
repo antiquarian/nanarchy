@@ -1,0 +1,7 @@
+C:\src\other\Dell.Hierarchy\Dell.Hierarchy.Data.MssqlHierarchyDataProvider\bin\Debug\Dell.Hierarchy.Data.MssqlHierarchyDataProvider.dll
+C:\src\other\Dell.Hierarchy\Dell.Hierarchy.Data.MssqlHierarchyDataProvider\bin\Debug\Dell.Hierarchy.Data.MssqlHierarchyDataProvider.pdb
+C:\src\other\Dell.Hierarchy\Dell.Hierarchy.Data.MssqlHierarchyDataProvider\bin\Debug\Dell.Hierarchy.dll
+C:\src\other\Dell.Hierarchy\Dell.Hierarchy.Data.MssqlHierarchyDataProvider\bin\Debug\Dell.Hierarchy.pdb
+C:\src\other\Dell.Hierarchy\Dell.Hierarchy.Data.MssqlHierarchyDataProvider\obj\Debug\Dell.Hierarchy.Data.MssqlHierarchyDataProvider.csprojResolveAssemblyReference.cache
+C:\src\other\Dell.Hierarchy\Dell.Hierarchy.Data.MssqlHierarchyDataProvider\obj\Debug\Dell.Hierarchy.Data.MssqlHierarchyDataProvider.dll
+C:\src\other\Dell.Hierarchy\Dell.Hierarchy.Data.MssqlHierarchyDataProvider\obj\Debug\Dell.Hierarchy.Data.MssqlHierarchyDataProvider.pdb
