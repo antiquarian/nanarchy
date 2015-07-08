@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using Dell.Hierarchy.Data;
-using Dell.Hierarchy.Service;
-using Dell.Hierarchy.Tests.TestData;
 using Moq;
+using Nanarchy.Data;
+using Nanarchy.Service;
+using Nanarchy.Tests.TestData;
 using NUnit.Framework;
 
-namespace Dell.Hierarchy.Tests
+namespace Nanarchy.Tests
 {
     [TestFixture]
     public class When_using_HierarchyService // : UnitTestsFor<HierarchyService>
@@ -21,7 +21,7 @@ namespace Dell.Hierarchy.Tests
                 Name = "Profile Root"
             };
             var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.Add(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>()));
+            mock.Setup(p => p.Add(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
             var service = new HierarchyService(mock.Object, hierarchy);
 
             // act
@@ -33,7 +33,7 @@ namespace Dell.Hierarchy.Tests
             Assert.That(rootHierarchyNode.RightId, Is.EqualTo(2));
             Assert.That(rootHierarchyNode.Id, Is.EqualTo(0));
 
-            mock.Verify(p => p.Add(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>()));
+            mock.Verify(p => p.Add(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
         }
 
         [Test]
@@ -49,7 +49,7 @@ namespace Dell.Hierarchy.Tests
             };
             var mock = new Mock<IHierarchyDataProvider>();
             mock
-                .Setup(p => p.GetRootNode(It.IsAny<IHierarchy>()))
+                .Setup(p => p.GetRootNode(It.IsAny<Hierarchy>()))
                 .Returns(rootNodeTarget);
             var service = new HierarchyService(mock.Object, hierarchy);
 
@@ -62,7 +62,7 @@ namespace Dell.Hierarchy.Tests
             Assert.That(rootHierarchyNode.RightId, Is.EqualTo(2));
             Assert.That(rootHierarchyNode.Id, Is.EqualTo(0));
 
-            mock.Verify(p => p.GetRootNode(It.IsAny<IHierarchy>()));
+            mock.Verify(p => p.GetRootNode(It.IsAny<Hierarchy>()));
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace Dell.Hierarchy.Tests
             };
 
             var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.PrepareForInsertNode(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>()));
+            mock.Setup(p => p.PrepareForInsertNode(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
             var service = new HierarchyService(mock.Object, hierarchy);
 
             // act
@@ -97,7 +97,7 @@ namespace Dell.Hierarchy.Tests
             Assert.That(newHierarchyNode.RightId, Is.EqualTo(parentNode.RightId + 1));
             Assert.That(newHierarchyNode.Id, Is.EqualTo(0));
 
-            mock.Verify(p => p.PrepareForInsertNode(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>()));
+            mock.Verify(p => p.PrepareForInsertNode(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
         }
 
         [Test]
@@ -118,8 +118,8 @@ namespace Dell.Hierarchy.Tests
             };
 
             var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.PrepareForInsertNode(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>()));
-            mock.Setup(p => p.Add(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>()));
+            mock.Setup(p => p.PrepareForInsertNode(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
+            mock.Setup(p => p.Add(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
             var service = new HierarchyService(mock.Object, hierarchy);
 
             // act
@@ -131,8 +131,8 @@ namespace Dell.Hierarchy.Tests
             Assert.That(newHierarchyNode.RightId, Is.EqualTo(parentNode.RightId + 1));
             Assert.That(newHierarchyNode.Id, Is.EqualTo(0));
 
-            mock.Verify(p => p.PrepareForInsertNode(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>()));
-            mock.Verify(p => p.Add(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>()));
+            mock.Verify(p => p.PrepareForInsertNode(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
+            mock.Verify(p => p.Add(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
         }
 
 
@@ -148,14 +148,14 @@ namespace Dell.Hierarchy.Tests
                 RightId = 3
             };
             var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.Delete(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>()));
+            mock.Setup(p => p.Delete(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
             var service = new HierarchyService(mock.Object, hierarchy);
 
             // act
             service.DeleteNode(deleteNode);
 
             // assert
-            mock.Verify(p =>p.Delete(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>()));
+            mock.Verify(p =>p.Delete(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
         }
 
 
@@ -177,7 +177,7 @@ namespace Dell.Hierarchy.Tests
                 TargetId = testTarget.Id
             };
             var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.GetNodeByTarget(It.IsAny<IHierarchy>(), It.IsAny<INodeTarget>()))
+            mock.Setup(p => p.GetNodeByTarget(It.IsAny<Hierarchy>(), It.IsAny<INodeTarget>()))
                 .Returns(testNode);
             var service = new HierarchyService(mock.Object, hierarchy);
 
@@ -191,7 +191,7 @@ namespace Dell.Hierarchy.Tests
             Assert.That(resultNode.RightId, Is.EqualTo(testNode.RightId));
             Assert.That(resultNode.TargetId, Is.EqualTo(testNode.TargetId));
 
-            mock.Verify(p => p.GetNodeByTarget(It.IsAny<IHierarchy>(), It.IsAny<INodeTarget>()));
+            mock.Verify(p => p.GetNodeByTarget(It.IsAny<Hierarchy>(), It.IsAny<INodeTarget>()));
         }
 
         [Test]
@@ -227,7 +227,7 @@ namespace Dell.Hierarchy.Tests
             };
 
             var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.GetChildren(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>()))
+            mock.Setup(p => p.GetChildren(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()))
                 .Returns(new List<HierarchyNode>{ child1, child2});
             var service = new HierarchyService(mock.Object, hierarchy);
 
@@ -242,7 +242,7 @@ namespace Dell.Hierarchy.Tests
             Assert.That(resultNode[0].RightId, Is.EqualTo(child1.RightId));
             Assert.That(resultNode[0].TargetId, Is.EqualTo(child1.TargetId));
 
-            mock.Verify(p => p.GetChildren(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>()));
+            mock.Verify(p => p.GetChildren(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
         }
 
         [Test]
@@ -278,7 +278,7 @@ namespace Dell.Hierarchy.Tests
             };
 
             var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.GetDescendants(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>(), true, true))
+            mock.Setup(p => p.GetDescendants(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>(), true, true))
                 .Returns(new List<HierarchyNode> { parentNode, child1, child2 });
             var service = new HierarchyService(mock.Object, hierarchy);
 
@@ -301,7 +301,7 @@ namespace Dell.Hierarchy.Tests
             Assert.That(resultNode[2].RightId, Is.EqualTo(child2.RightId));
             Assert.That(resultNode[2].TargetId, Is.EqualTo(child2.TargetId));
 
-            mock.Verify(p => p.GetDescendants(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>(), true, true));
+            mock.Verify(p => p.GetDescendants(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>(), true, true));
         }
 
         [Test]
@@ -337,7 +337,7 @@ namespace Dell.Hierarchy.Tests
             };
 
             var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.GetAncestors(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>(), true, true))
+            mock.Setup(p => p.GetAncestors(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>(), true, true))
                 .Returns(new List<HierarchyNode> { ancestor2, ancestor1, node });
             var service = new HierarchyService(mock.Object, hierarchy);
 
@@ -360,7 +360,7 @@ namespace Dell.Hierarchy.Tests
             Assert.That(resultNode[2].RightId, Is.EqualTo(node.RightId));
             Assert.That(resultNode[2].TargetId, Is.EqualTo(node.TargetId));
 
-            mock.Verify(p => p.GetAncestors(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>(), true, true));
+            mock.Verify(p => p.GetAncestors(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>(), true, true));
         }
 
         [Test]
@@ -390,7 +390,7 @@ namespace Dell.Hierarchy.Tests
 
 
             var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.GetParent(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>()))
+            mock.Setup(p => p.GetParent(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()))
                 .Returns(parentNode);
             var service = new HierarchyService(mock.Object, hierarchy);
 
@@ -405,7 +405,7 @@ namespace Dell.Hierarchy.Tests
             Assert.That(resultNode.TargetId, Is.EqualTo(parentNode.TargetId));
 
 
-            mock.Verify(p => p.GetParent(It.IsAny<IHierarchy>(), It.IsAny<HierarchyNode>()));
+            mock.Verify(p => p.GetParent(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
         }
     }
 }

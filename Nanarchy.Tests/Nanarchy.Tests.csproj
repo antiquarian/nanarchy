@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HierarchyServiceTests.cs" />
+    <Compile Include="MssqlDataProviderTests.cs" />
     <Compile Include="MssqlHierarchyDataProviderTests.cs" />
     <Compile Include="TestHelpers\ObjectHelper.cs" />
     <Compile Include="NodeTests.cs" />

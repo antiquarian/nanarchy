@@ -1,9 +1,8 @@
 ﻿using System.Configuration;
-using System.Data.SqlClient;
-using Dell.Hierarchy.Data.MssqlHierarchyDataProvider;
+using Nanarchy.Data.MssqlHierarchyDataProvider;
 using NUnit.Framework;
 
-namespace Dell.Hierarchy.Tests
+namespace Nanarchy.Tests
 {
     [TestFixture]
     public class When_using_MssqlHierarchyDataProvider
@@ -11,7 +10,7 @@ namespace Dell.Hierarchy.Tests
         [Test]
         public void Should_properly_initialize_sqlConnection()
         {
-            var connectionString = ConfigurationManager.ConnectionStrings["HierarchyDb"].ConnectionString;
+            var connectionString = ConfigurationManager.ConnectionStrings["NanarchyDb"].ConnectionString;
 
             var provider = new MssqlHierarchyDataProvider(connectionString);
 

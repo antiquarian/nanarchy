@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Dell.Hierarchy.Tests.TestHelpers
+namespace Nanarchy.Tests.TestHelpers
 {
     public static class ObjectHelper
     {

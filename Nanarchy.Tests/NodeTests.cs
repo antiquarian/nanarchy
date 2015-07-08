@@ -2,7 +2,7 @@
 using System.Linq;
 using NUnit.Framework;
 
-namespace Dell.Hierarchy.Tests
+namespace Nanarchy.Tests
 {
     [TestFixture]
     public class When_using_Node_and_related_classes

@@ -1,8 +1,8 @@
-﻿using Dell.Hierarchy.Service;
+﻿using Nanarchy.Service;
 
-namespace Dell.Hierarchy.Tests.TestData
+namespace Nanarchy.Tests.TestData
 {
-    public class TestHierarchy : IHierarchy
+    public class TestHierarchy : Hierarchy
     {
         public TestHierarchy(string name) : this(name, name) { }
 

@@ -1,4 +1,4 @@
-﻿namespace Dell.Hierarchy
+﻿namespace Nanarchy
 {
     public interface INodeTarget
     {

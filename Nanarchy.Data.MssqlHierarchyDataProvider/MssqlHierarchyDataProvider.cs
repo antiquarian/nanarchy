@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using Dell.Hierarchy.Service;
+using Nanarchy.Service;
 
-namespace Dell.Hierarchy.Data.MssqlHierarchyDataProvider
+namespace Nanarchy.Data.MssqlHierarchyDataProvider
 {
     public class MssqlHierarchyDataProvider : IHierarchyDataProvider
     {
@@ -30,14 +30,14 @@ namespace Dell.Hierarchy.Data.MssqlHierarchyDataProvider
 
         #region Private Methods
 
-        private void ReloadLeftRight(IHierarchy hierarchy, HierarchyNode node)
+        private void ReloadLeftRight(Hierarchy hierarchy, HierarchyNode node)
         {
             var reloadedNode = GetNode(hierarchy, node.Id);
             node.LeftId = reloadedNode.LeftId;
             node.RightId = reloadedNode.RightId;
         }
 
-        private HierarchyNode GetNode(IHierarchy hierarchy, int id)
+        private HierarchyNode GetNode(Hierarchy hierarchy, int id)
         {
             var sql = string.Format(@"
 				SELECT Id, left_id as LeftId, right_id as RightId, target_id as TargetId 
@@ -72,12 +72,14 @@ namespace Dell.Hierarchy.Data.MssqlHierarchyDataProvider
 
         #endregion
 
-        public void PrepareForInsertNode(IHierarchy hierarchy, HierarchyNode parent)
+        #region Hierarchy Methods
+
+        public void PrepareForInsertNode(Hierarchy hierarchy, HierarchyNode parent)
         {
             throw new NotImplementedException();
         }
 
-        public HierarchyNode GetRootNode(IHierarchy hierarchy)
+        public HierarchyNode GetRootNode(Hierarchy hierarchy)
         {
             var sql = string.Format(@"
             					select id as Id, left_id as LeftId, right_id as RightId, target_id as TargetId
@@ -99,47 +101,47 @@ namespace Dell.Hierarchy.Data.MssqlHierarchyDataProvider
         }
 
 
-        public HierarchyNode GetNodeByTarget(IHierarchy hierarchy, INodeTarget target)
+        public HierarchyNode GetNodeByTarget(Hierarchy hierarchy, INodeTarget target)
         {
             throw new NotImplementedException();
         }
 
-        public HierarchyNode GetBaseNodeByTarget(IHierarchy hierarchy, INodeTarget target)
+        public HierarchyNode GetBaseNodeByTarget(Hierarchy hierarchy, INodeTarget target)
         {
             throw new NotImplementedException();
         }
 
-        public List<HierarchyNode> GetNodesByTarget(IHierarchy hierarchy, INodeTarget target)
+        public List<HierarchyNode> GetNodesByTarget(Hierarchy hierarchy, INodeTarget target)
         {
             throw new NotImplementedException();
         }
 
-        public IList<HierarchyNode> GetList(IHierarchy hierarchy)
+        public IList<HierarchyNode> GetList(Hierarchy hierarchy)
         {
             throw new NotImplementedException();
         }
 
-        public IList<HierarchyNode> GetChildren(IHierarchy hierarchy, HierarchyNode parent)
+        public IList<HierarchyNode> GetChildren(Hierarchy hierarchy, HierarchyNode parent)
         {
             throw new NotImplementedException();
         }
 
-        public HierarchyNode GetParent(IHierarchy hierarchy, HierarchyNode child)
+        public HierarchyNode GetParent(Hierarchy hierarchy, HierarchyNode child)
         {
             throw new NotImplementedException();
         }
 
-        public IList<HierarchyNode> GetDescendants(IHierarchy hierarchy, HierarchyNode parent, bool orderTopDown, bool includeParent)
+        public IList<HierarchyNode> GetDescendants(Hierarchy hierarchy, HierarchyNode parent, bool orderTopDown, bool includeParent)
         {
             throw new NotImplementedException();
         }
 
-        public IList<HierarchyNode> GetAncestors(IHierarchy hierarchy, HierarchyNode child, bool orderTopDown, bool includeChild)
+        public IList<HierarchyNode> GetAncestors(Hierarchy hierarchy, HierarchyNode child, bool orderTopDown, bool includeChild)
         {
             throw new NotImplementedException();
         }
 
-        public void Add(IHierarchy hierarchy, HierarchyNode node)
+        public void Add(Hierarchy hierarchy, HierarchyNode node)
         {
             var insertQuery = string.Format(@"
 					INSERT INTO {0} (target_id, left_id, right_id)
@@ -173,22 +175,20 @@ namespace Dell.Hierarchy.Data.MssqlHierarchyDataProvider
             }
         }
 
-        public void Delete(IHierarchy hierarchy, HierarchyNode node)
+        public void Delete(Hierarchy hierarchy, HierarchyNode node)
         {
             throw new NotImplementedException();
         }
 
-        public bool IsAncestorOrSame(IHierarchy hierarchy, HierarchyNode candidateNode, HierarchyNode node)
+        public bool IsAncestorOrSame(Hierarchy hierarchy, HierarchyNode candidateNode, HierarchyNode node)
         {
             throw new NotImplementedException();
         }
 
-        public void ExecuteSql(string sql)
-        {
-            throw new NotImplementedException();
-        }
 
-//        /// <summary>
+        #endregion
+
+        //        /// <summary>
 //        /// Makes a space in the hierarchy for a new node.
 //        /// </summary>
 //        /// <param name="hierarchy"></param>

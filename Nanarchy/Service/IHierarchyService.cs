@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Dell.Hierarchy.Service
+namespace Nanarchy.Service
 {
     public interface IHierarchyService
     {

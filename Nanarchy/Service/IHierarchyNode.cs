@@ -1,4 +1,4 @@
-﻿namespace Dell.Hierarchy.Service
+﻿namespace Nanarchy.Service
 {
     public interface IHierarchyNode
     {

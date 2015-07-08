@@ -44,8 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bootstrap.cs" />
+    <Compile Include="Data\IDataProvider.cs" />
     <Compile Include="Service\HierarchyService.cs" />
-    <Compile Include="Service\IHierarchy.cs" />
+    <Compile Include="Service\Hierarchy.cs" />
     <Compile Include="Data\IHierarchyDataProvider.cs" />
     <Compile Include="Service\IHierarchyService.cs" />
     <Compile Include="Service\HierarchyNode.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="INodeTarget.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Target.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

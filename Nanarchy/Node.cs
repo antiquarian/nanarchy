@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Dell.Hierarchy
+namespace Nanarchy
 {
     public class Node
     {

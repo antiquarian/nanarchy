@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
-using Dell.Hierarchy.Data;
+using Nanarchy.Data;
 
-namespace Dell.Hierarchy.Service
+namespace Nanarchy.Service
 {
     public class HierarchyService : IHierarchyService
     {
         private readonly IHierarchyDataProvider _hierarchyDataProvider;
-        private readonly IHierarchy _hierarchy;
+        private readonly Hierarchy _hierarchy;
 
-        public HierarchyService(IHierarchyDataProvider hierarchyDataProvider, IHierarchy hierarchy)
+        public HierarchyService(IHierarchyDataProvider hierarchyDataProvider, Hierarchy hierarchy)
         {
             _hierarchyDataProvider = hierarchyDataProvider;
             _hierarchy = hierarchy;
