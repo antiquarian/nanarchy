@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Nanarchy.Core.Interfaces;
 
 namespace Nanarchy
 {
@@ -13,6 +14,6 @@ namespace Nanarchy
         public int NodeId { get; set; }
         public string Name { get; set; }
         public List<Node> Children { get; set; }
-        public INodeTarget Data { get; set; }
+        public ITarget Data { get; set; }
     }
 }

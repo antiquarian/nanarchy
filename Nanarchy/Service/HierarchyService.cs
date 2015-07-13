@@ -1,20 +1,61 @@
 ﻿using System.Collections.Generic;
-using Nanarchy.Data;
+using Nanarchy.Core;
+using Nanarchy.Core.Interfaces;
 
 namespace Nanarchy.Service
 {
     public class HierarchyService : IHierarchyService
     {
         private readonly IHierarchyDataProvider _hierarchyDataProvider;
-        private readonly Hierarchy _hierarchy;
+        private readonly HierarchyEntry _hierarchy;
+        private readonly IHierarchyEntryRepository _hierarchyRepository;
+        private readonly ITargetEntryRepository _targetRepository;
 
-        public HierarchyService(IHierarchyDataProvider hierarchyDataProvider, Hierarchy hierarchy)
+        public HierarchyService(
+            IHierarchyDataProvider hierarchyDataProvider, 
+            HierarchyEntry hierarchy,
+            IHierarchyEntryRepository  hierarchyRepository,
+            ITargetEntryRepository targetRepository)
         {
             _hierarchyDataProvider = hierarchyDataProvider;
             _hierarchy = hierarchy;
+            _hierarchyRepository = hierarchyRepository;
+            _targetRepository = targetRepository;
         }
 
-        public HierarchyNode InitializeHierarchy(INodeTarget rootTarget)
+        #region Initialization Methods - used on startup
+        public bool InitializeDatabase(HierarchyEntry hierarchy, List<TargetEntry> nodeTargets)
+        {
+            var check = VerifyManagementTables();
+            if (!check) return false;
+
+            _hierarchyRepository.Update(hierarchy);
+            foreach (var nodeTarget in nodeTargets)
+            {
+                _targetRepository.Update(nodeTarget);
+            }
+            return true;
+        }
+        private bool VerifyManagementTables()
+        {
+            if (!_hierarchyRepository.TableExists())
+            {
+                _hierarchyRepository.Initialize();
+                if (!_hierarchyRepository.TableExists()) return false;
+            }
+
+            if (!_targetRepository.TableExists())
+            {
+                _targetRepository.Initialize();
+                if (!_targetRepository.TableExists()) return false;
+            }
+            return true;
+        }
+
+        #endregion
+
+
+        public HierarchyNode InitializeHierarchy(ITarget rootTarget)
         {
             var rootNode = new HierarchyNode
             {
@@ -34,7 +75,7 @@ namespace Nanarchy.Service
             return _hierarchyDataProvider.GetRootNode(_hierarchy);
         }
 
-        public HierarchyNode InsertNode(HierarchyNode parentNode, INodeTarget childTarget)
+        public HierarchyNode InsertNode(HierarchyNode parentNode, ITarget childTarget)
         {
             var childNode = new HierarchyNode { TargetId = childTarget.Id };
             childNode = PrepareForInsertNode(parentNode, childNode);
@@ -55,7 +96,7 @@ namespace Nanarchy.Service
             _hierarchyDataProvider.Delete(_hierarchy, node);
         }
 
-        public HierarchyNode GetNodeByTarget(INodeTarget target)
+        public HierarchyNode GetNodeByTarget(ITarget target)
         {
             return _hierarchyDataProvider.GetNodeByTarget(_hierarchy, target);
         }

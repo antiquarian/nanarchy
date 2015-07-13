@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Moq;
-using Nanarchy.Data;
+using Nanarchy.Core;
+using Nanarchy.Core.Interfaces;
 using Nanarchy.Service;
 using Nanarchy.Tests.TestData;
 using NUnit.Framework;
@@ -8,21 +9,24 @@ using NUnit.Framework;
 namespace Nanarchy.Tests
 {
     [TestFixture]
-    public class When_using_HierarchyService // : UnitTestsFor<HierarchyService>
+    public class When_using_HierarchyService 
     {
         [Test]
         public void Should_return_valid_Root_Node_calling_Initializehierarchy()
         {
             // arrange
-            var hierarchy = new TestHierarchy("Profile"); 
+            var hierarchyEntry = new TestHierarchyEntry("Profile"); 
             var rootNodeTarget = new TestTarget
             {
                 Id = 0,
                 Name = "Profile Root"
             };
-            var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.Add(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
-            var service = new HierarchyService(mock.Object, hierarchy);
+            var mockDataProvider = new Mock<IHierarchyDataProvider>();
+            mockDataProvider
+                .Setup(p => p.Add(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>()));
+            var mockHierarchyRepository = new Mock<IHierarchyEntryRepository>();
+            var mockTargetRepository = new Mock<ITargetEntryRepository>();
+            var service = new HierarchyService(mockDataProvider.Object, hierarchyEntry, mockHierarchyRepository.Object, mockTargetRepository.Object);
 
             // act
             var rootHierarchyNode = service.InitializeHierarchy(rootNodeTarget);
@@ -33,25 +37,94 @@ namespace Nanarchy.Tests
             Assert.That(rootHierarchyNode.RightId, Is.EqualTo(2));
             Assert.That(rootHierarchyNode.Id, Is.EqualTo(0));
 
-            mock.Verify(p => p.Add(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
+            mockDataProvider
+                .Verify(p => p.Add(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>()));
         }
+
+        [Test]
+        public void Should_return_valid_Root_Node_calling_InitializeDatabase_when_tables_exist()
+        {
+            // arrange
+            var hierarchyEntry = new TestHierarchyEntry("Profile");
+            var mockDataProvider = new Mock<IHierarchyDataProvider>();
+            var mockHierarchyRepository = new Mock<IHierarchyEntryRepository>();
+            mockHierarchyRepository.Setup(p => p.TableExists()).Returns(true);
+            mockHierarchyRepository.Setup(p => p.Update(It.IsAny<HierarchyEntry>()));
+            var mockTargetRepository = new Mock<ITargetEntryRepository>();
+            mockTargetRepository.Setup(p => p.TableExists()).Returns(true);
+
+            mockTargetRepository.Setup(p => p.Update(It.IsAny<TargetEntry>()));
+            var service = new HierarchyService(mockDataProvider.Object, hierarchyEntry, mockHierarchyRepository.Object, mockTargetRepository.Object);
+
+            // act
+            var initalized = service.InitializeDatabase(hierarchyEntry, new List<TargetEntry>
+            {
+                new TargetEntry{ Name = "Target One", TableName = "target_one"},
+                new TargetEntry{ Name = "Target Two", TableName = "target_two"},
+            });
+
+            // assert
+            Assert.That(initalized, Is.True);
+
+            mockHierarchyRepository.Verify(p => p.TableExists());
+            mockHierarchyRepository.Verify(p => p.Update(It.IsAny<HierarchyEntry>()));
+            mockTargetRepository.Verify(p => p.TableExists());
+            mockTargetRepository.Verify(p => p.Update(It.IsAny<TargetEntry>()), Times.Exactly(2));
+        }
+
+        [Test]
+        public void Should_return_valid_Root_Node_calling_InitializeDatabase_when_tables_do_not_exist()
+        {
+            // arrange
+            var hierarchyEntry = new TestHierarchyEntry("Profile");
+            var mockDataProvider = new Mock<IHierarchyDataProvider>();
+
+            var mockHierarchyRepository = new Mock<IHierarchyEntryRepository>();
+            mockHierarchyRepository.Setup(p => p.TableExists()).Returns(false);
+            mockHierarchyRepository.Setup(p => p.TableExists()).Returns(true);
+            mockHierarchyRepository.Setup(p => p.Update(It.IsAny<HierarchyEntry>()));
+
+            var mockTargetRepository = new Mock<ITargetEntryRepository>();
+            mockTargetRepository.Setup(p => p.TableExists()).Returns(true);
+
+            mockTargetRepository.Setup(p => p.Update(It.IsAny<TargetEntry>()));
+            var service = new HierarchyService(mockDataProvider.Object, hierarchyEntry, mockHierarchyRepository.Object, mockTargetRepository.Object);
+
+            // act
+            var initalized = service.InitializeDatabase(hierarchyEntry, new List<TargetEntry>
+            {
+                new TargetEntry{ Name = "Target One", TableName = "target_one"},
+                new TargetEntry{ Name = "Target Two", TableName = "target_two"},
+            });
+
+            // assert
+            Assert.That(initalized, Is.True);
+
+            mockHierarchyRepository.Verify(p => p.TableExists());
+            mockHierarchyRepository.Verify(p => p.Update(It.IsAny<HierarchyEntry>()));
+            mockTargetRepository.Verify(p => p.TableExists());
+            mockTargetRepository.Verify(p => p.Update(It.IsAny<TargetEntry>()), Times.Exactly(2));
+        }
+
 
         [Test]
         public void Should_return_valid_node_calling_GetRootNode()
         {
             // arrange
-            var hierarchy = new TestHierarchy("Profile");
+            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var rootNodeTarget = new HierarchyNode
             {
                 Id = 0,
                 LeftId = 1,
                 RightId = 2
             };
-            var mock = new Mock<IHierarchyDataProvider>();
-            mock
-                .Setup(p => p.GetRootNode(It.IsAny<Hierarchy>()))
+            var mockDataProvider = new Mock<IHierarchyDataProvider>();
+            mockDataProvider
+                .Setup(p => p.GetRootNode(It.IsAny<HierarchyEntry>()))
                 .Returns(rootNodeTarget);
-            var service = new HierarchyService(mock.Object, hierarchy);
+            var mockHierarchyRepository = new Mock<IHierarchyEntryRepository>();
+            var mockTargetRepository = new Mock<ITargetEntryRepository>();
+            var service = new HierarchyService(mockDataProvider.Object, hierarchyEntry, mockHierarchyRepository.Object, mockTargetRepository.Object);
 
             // act
             var rootHierarchyNode = service.GetRootNode();
@@ -62,14 +135,14 @@ namespace Nanarchy.Tests
             Assert.That(rootHierarchyNode.RightId, Is.EqualTo(2));
             Assert.That(rootHierarchyNode.Id, Is.EqualTo(0));
 
-            mock.Verify(p => p.GetRootNode(It.IsAny<Hierarchy>()));
+            mockDataProvider.Verify(p => p.GetRootNode(It.IsAny<HierarchyEntry>()));
         }
 
         [Test]
         public void Should_return_valid_node_calling_PrepareForInsertNode()
         {
             // arrange
-            var hierarchy = new TestHierarchy("Profile");
+            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var parentNode = new HierarchyNode
             {
                 Id = 0,
@@ -84,9 +157,11 @@ namespace Nanarchy.Tests
                 TargetId = 345
             };
 
-            var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.PrepareForInsertNode(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
-            var service = new HierarchyService(mock.Object, hierarchy);
+            var mockDataProvider = new Mock<IHierarchyDataProvider>();
+            mockDataProvider.Setup(p => p.PrepareForInsertNode(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>()));
+            var mockHierarchyRepository = new Mock<IHierarchyEntryRepository>();
+            var mockTargetRepository = new Mock<ITargetEntryRepository>();
+            var service = new HierarchyService(mockDataProvider.Object, hierarchyEntry, mockHierarchyRepository.Object, mockTargetRepository.Object);
 
             // act
             var newHierarchyNode = service.PrepareForInsertNode(parentNode, childNode);
@@ -97,14 +172,14 @@ namespace Nanarchy.Tests
             Assert.That(newHierarchyNode.RightId, Is.EqualTo(parentNode.RightId + 1));
             Assert.That(newHierarchyNode.Id, Is.EqualTo(0));
 
-            mock.Verify(p => p.PrepareForInsertNode(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
+            mockDataProvider.Verify(p => p.PrepareForInsertNode(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>()));
         }
 
         [Test]
         public void Should_return_valid_node_calling_InsertNode()
         {
             // arrange
-            var hierarchy = new TestHierarchy("Profile");
+            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var parentNode = new HierarchyNode
             {
                 Id = 0,
@@ -117,10 +192,12 @@ namespace Nanarchy.Tests
                 Name = "Its a boy!"
             };
 
-            var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.PrepareForInsertNode(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
-            mock.Setup(p => p.Add(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
-            var service = new HierarchyService(mock.Object, hierarchy);
+            var mockDataProvider = new Mock<IHierarchyDataProvider>();
+            mockDataProvider.Setup(p => p.PrepareForInsertNode(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>()));
+            mockDataProvider.Setup(p => p.Add(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>()));
+            var mockHierarchyRepository = new Mock<IHierarchyEntryRepository>();
+            var mockTargetRepository = new Mock<ITargetEntryRepository>();
+            var service = new HierarchyService(mockDataProvider.Object, hierarchyEntry, mockHierarchyRepository.Object, mockTargetRepository.Object);
 
             // act
             var newHierarchyNode = service.InsertNode(parentNode, childTarget);
@@ -131,8 +208,8 @@ namespace Nanarchy.Tests
             Assert.That(newHierarchyNode.RightId, Is.EqualTo(parentNode.RightId + 1));
             Assert.That(newHierarchyNode.Id, Is.EqualTo(0));
 
-            mock.Verify(p => p.PrepareForInsertNode(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
-            mock.Verify(p => p.Add(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
+            mockDataProvider.Verify(p => p.PrepareForInsertNode(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>()));
+            mockDataProvider.Verify(p => p.Add(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>()));
         }
 
 
@@ -140,22 +217,24 @@ namespace Nanarchy.Tests
         public void Should_verify_calling_DeleteNode()
         {
             // arrange
-            var hierarchy = new TestHierarchy("Profile");
+            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var deleteNode = new HierarchyNode
             {
                 Id = 1,
                 LeftId = 2,
                 RightId = 3
             };
-            var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.Delete(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
-            var service = new HierarchyService(mock.Object, hierarchy);
+            var mockDataProvider = new Mock<IHierarchyDataProvider>();
+            mockDataProvider.Setup(p => p.Delete(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>()));
+            var mockHierarchyRepository = new Mock<IHierarchyEntryRepository>();
+            var mockTargetRepository = new Mock<ITargetEntryRepository>();
+            var service = new HierarchyService(mockDataProvider.Object, hierarchyEntry, mockHierarchyRepository.Object, mockTargetRepository.Object);
 
             // act
             service.DeleteNode(deleteNode);
 
             // assert
-            mock.Verify(p =>p.Delete(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
+            mockDataProvider.Verify(p => p.Delete(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>()));
         }
 
 
@@ -163,7 +242,7 @@ namespace Nanarchy.Tests
         public void Should_verify_calling_GetNodeByTarget()
         {
             // arrange
-            var hierarchy = new TestHierarchy("Profile");
+            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var testTarget = new TestTarget
             {
                 Id = 345,
@@ -176,10 +255,12 @@ namespace Nanarchy.Tests
                 RightId = 3,
                 TargetId = testTarget.Id
             };
-            var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.GetNodeByTarget(It.IsAny<Hierarchy>(), It.IsAny<INodeTarget>()))
+            var mockDataProvider = new Mock<IHierarchyDataProvider>();
+            mockDataProvider.Setup(p => p.GetNodeByTarget(It.IsAny<HierarchyEntry>(), It.IsAny<ITarget>()))
                 .Returns(testNode);
-            var service = new HierarchyService(mock.Object, hierarchy);
+            var mockHierarchyRepository = new Mock<IHierarchyEntryRepository>();
+            var mockTargetRepository = new Mock<ITargetEntryRepository>();
+            var service = new HierarchyService(mockDataProvider.Object, hierarchyEntry, mockHierarchyRepository.Object, mockTargetRepository.Object);
 
             // act
             var resultNode = service.GetNodeByTarget(testTarget);
@@ -191,14 +272,14 @@ namespace Nanarchy.Tests
             Assert.That(resultNode.RightId, Is.EqualTo(testNode.RightId));
             Assert.That(resultNode.TargetId, Is.EqualTo(testNode.TargetId));
 
-            mock.Verify(p => p.GetNodeByTarget(It.IsAny<Hierarchy>(), It.IsAny<INodeTarget>()));
+            mockDataProvider.Verify(p => p.GetNodeByTarget(It.IsAny<HierarchyEntry>(), It.IsAny<ITarget>()));
         }
 
         [Test]
         public void Should_return_children_calling_GetChildren()
         {
             // arrange
-            var hierarchy = new TestHierarchy("Profile");
+            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var testTarget = new TestTarget
             {
                 Id = 345,
@@ -226,10 +307,12 @@ namespace Nanarchy.Tests
                 TargetId = testTarget.Id
             };
 
-            var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.GetChildren(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()))
-                .Returns(new List<HierarchyNode>{ child1, child2});
-            var service = new HierarchyService(mock.Object, hierarchy);
+            var mockDataProvider = new Mock<IHierarchyDataProvider>();
+            mockDataProvider.Setup(p => p.GetChildren(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>()))
+                .Returns(new List<HierarchyNode> { child1, child2 });
+            var mockHierarchyRepository = new Mock<IHierarchyEntryRepository>();
+            var mockTargetRepository = new Mock<ITargetEntryRepository>();
+            var service = new HierarchyService(mockDataProvider.Object, hierarchyEntry, mockHierarchyRepository.Object, mockTargetRepository.Object);
 
             // act
             var resultNode = service.GetChildren(parentNode);
@@ -242,14 +325,14 @@ namespace Nanarchy.Tests
             Assert.That(resultNode[0].RightId, Is.EqualTo(child1.RightId));
             Assert.That(resultNode[0].TargetId, Is.EqualTo(child1.TargetId));
 
-            mock.Verify(p => p.GetChildren(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
+            mockDataProvider.Verify(p => p.GetChildren(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>()));
         }
 
         [Test]
         public void Should_return_descendants_calling_GetDescendants()
         {
             // arrange
-            var hierarchy = new TestHierarchy("Profile");
+            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var testTarget = new TestTarget
             {
                 Id = 345,
@@ -277,10 +360,12 @@ namespace Nanarchy.Tests
                 TargetId = testTarget.Id
             };
 
-            var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.GetDescendants(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>(), true, true))
+            var mockDataProvider = new Mock<IHierarchyDataProvider>();
+            mockDataProvider.Setup(p => p.GetDescendants(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>(), true, true))
                 .Returns(new List<HierarchyNode> { parentNode, child1, child2 });
-            var service = new HierarchyService(mock.Object, hierarchy);
+            var mockHierarchyRepository = new Mock<IHierarchyEntryRepository>();
+            var mockTargetRepository = new Mock<ITargetEntryRepository>();
+            var service = new HierarchyService(mockDataProvider.Object, hierarchyEntry, mockHierarchyRepository.Object, mockTargetRepository.Object);
 
             // act
             var resultNode = service.GetDescendants(parentNode, true, true);
@@ -301,14 +386,14 @@ namespace Nanarchy.Tests
             Assert.That(resultNode[2].RightId, Is.EqualTo(child2.RightId));
             Assert.That(resultNode[2].TargetId, Is.EqualTo(child2.TargetId));
 
-            mock.Verify(p => p.GetDescendants(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>(), true, true));
+            mockDataProvider.Verify(p => p.GetDescendants(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>(), true, true));
         }
 
         [Test]
         public void Should_return_ancestors_calling_GetAncestors()
         {
             // arrange
-            var hierarchy = new TestHierarchy("Profile");
+            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var testTarget = new TestTarget
             {
                 Id = 345,
@@ -336,10 +421,12 @@ namespace Nanarchy.Tests
                 TargetId = testTarget.Id
             };
 
-            var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.GetAncestors(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>(), true, true))
+            var mockDataProvider = new Mock<IHierarchyDataProvider>();
+            mockDataProvider.Setup(p => p.GetAncestors(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>(), true, true))
                 .Returns(new List<HierarchyNode> { ancestor2, ancestor1, node });
-            var service = new HierarchyService(mock.Object, hierarchy);
+            var mockHierarchyRepository = new Mock<IHierarchyEntryRepository>();
+            var mockTargetRepository = new Mock<ITargetEntryRepository>();
+            var service = new HierarchyService(mockDataProvider.Object, hierarchyEntry, mockHierarchyRepository.Object, mockTargetRepository.Object);
 
             // act
             var resultNode = service.GetAncestors(node, true, true);
@@ -360,14 +447,14 @@ namespace Nanarchy.Tests
             Assert.That(resultNode[2].RightId, Is.EqualTo(node.RightId));
             Assert.That(resultNode[2].TargetId, Is.EqualTo(node.TargetId));
 
-            mock.Verify(p => p.GetAncestors(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>(), true, true));
+            mockDataProvider.Verify(p => p.GetAncestors(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>(), true, true));
         }
 
         [Test]
         public void Should_return_parent_calling_GetParent()
         {
             // arrange
-            var hierarchy = new TestHierarchy("Profile");
+            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var testTarget = new TestTarget
             {
                 Id = 345,
@@ -389,10 +476,12 @@ namespace Nanarchy.Tests
             };
 
 
-            var mock = new Mock<IHierarchyDataProvider>();
-            mock.Setup(p => p.GetParent(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()))
+            var mockDataProvider = new Mock<IHierarchyDataProvider>();
+            mockDataProvider.Setup(p => p.GetParent(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>()))
                 .Returns(parentNode);
-            var service = new HierarchyService(mock.Object, hierarchy);
+            var mockHierarchyRepository = new Mock<IHierarchyEntryRepository>();
+            var mockTargetRepository = new Mock<ITargetEntryRepository>();
+            var service = new HierarchyService(mockDataProvider.Object, hierarchyEntry, mockHierarchyRepository.Object, mockTargetRepository.Object);
 
             // act
             var resultNode = service.GetParent(childNode);
@@ -405,7 +494,7 @@ namespace Nanarchy.Tests
             Assert.That(resultNode.TargetId, Is.EqualTo(parentNode.TargetId));
 
 
-            mock.Verify(p => p.GetParent(It.IsAny<Hierarchy>(), It.IsAny<HierarchyNode>()));
+            mockDataProvider.Verify(p => p.GetParent(It.IsAny<HierarchyEntry>(), It.IsAny<HierarchyNode>()));
         }
     }
 }

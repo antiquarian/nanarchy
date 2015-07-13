@@ -37,17 +37,25 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UsefulUtilities">
+      <HintPath>..\packages\UsefulUtilities.1.0.0\lib\UsefulUtilities.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HierarchyEntryRepository.cs" />
     <Compile Include="MssqlDataProvider.cs" />
     <Compile Include="MssqlHierarchyDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TargetEntryRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Nanarchy\Nanarchy.csproj">
-      <Project>{6E46D382-F550-4B5F-8EED-07760D91AA08}</Project>
-      <Name>Nanarchy</Name>
+    <ProjectReference Include="..\Nanarchy.Core\Nanarchy.Core.csproj">
+      <Project>{5206df62-175a-4490-9c54-ad1d4d719efc}</Project>
+      <Name>Nanarchy.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

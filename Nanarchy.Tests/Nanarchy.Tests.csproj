@@ -36,29 +36,33 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="StructureMap">
-      <HintPath>..\packages\structuremap.3.1.5.154\lib\net40\StructureMap.dll</HintPath>
+    <Reference Include="StructureMap, Version=3.1.6.186, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\structuremap.3.1.6.186\lib\net40\StructureMap.dll</HintPath>
     </Reference>
-    <Reference Include="StructureMap.Net4">
-      <HintPath>..\packages\structuremap.3.1.5.154\lib\net40\StructureMap.Net4.dll</HintPath>
+    <Reference Include="StructureMap.Net4, Version=3.1.6.186, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\structuremap.3.1.6.186\lib\net40\StructureMap.Net4.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HierarchyServiceTests.cs" />
     <Compile Include="MssqlDataProviderTests.cs" />
     <Compile Include="MssqlHierarchyDataProviderTests.cs" />
-    <Compile Include="TestHelpers\ObjectHelper.cs" />
+    <Compile Include="Repositories\HierarchyEntryRepositoryTests.cs" />
+    <Compile Include="Repositories\TargetEntryRepositoryTests.cs" />
+    <Compile Include="StructureMapTests.cs" />
+    <Compile Include="TestData\TestTargetOne.cs" />
     <Compile Include="NodeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestData\TestHierarchy.cs" />
+    <Compile Include="TestHelpers\IUnitTestsFor.cs" />
+    <Compile Include="TestHelpers\UnitTestsFor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -67,6 +71,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Nanarchy.Core\Nanarchy.Core.csproj">
+      <Project>{5206df62-175a-4490-9c54-ad1d4d719efc}</Project>
+      <Name>Nanarchy.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Nanarchy.Data.MssqlHierarchyDataProvider\Nanarchy.Data.MssqlHierarchyDataProvider.csproj">
       <Project>{03F1081A-6A68-469C-8677-BD12B017C123}</Project>
       <Name>Nanarchy.Data.MssqlHierarchyDataProvider</Name>

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
-using Nanarchy.Service;
+using Nanarchy.Core;
+using Nanarchy.Core.Interfaces;
 
 namespace Nanarchy.Data.MssqlHierarchyDataProvider
 {
@@ -30,14 +32,14 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
 
         #region Private Methods
 
-        private void ReloadLeftRight(Hierarchy hierarchy, HierarchyNode node)
+        private void ReloadLeftRight(HierarchyEntry hierarchy, HierarchyNode node)
         {
             var reloadedNode = GetNode(hierarchy, node.Id);
             node.LeftId = reloadedNode.LeftId;
             node.RightId = reloadedNode.RightId;
         }
 
-        private HierarchyNode GetNode(Hierarchy hierarchy, int id)
+        private HierarchyNode GetNode(HierarchyEntry hierarchy, int id)
         {
             var sql = string.Format(@"
 				SELECT Id, left_id as LeftId, right_id as RightId, target_id as TargetId 
@@ -58,7 +60,7 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
             return returnNode;
         }
 
-        private HierarchyNode PopulateHierarchyNode(SqlDataReader reader)
+        private HierarchyNode PopulateHierarchyNode(IDataRecord reader)
         {
             var node = new HierarchyNode
             {
@@ -74,12 +76,12 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
 
         #region Hierarchy Methods
 
-        public void PrepareForInsertNode(Hierarchy hierarchy, HierarchyNode parent)
+        public void PrepareForInsertNode(HierarchyEntry hierarchy, HierarchyNode parent)
         {
             throw new NotImplementedException();
         }
 
-        public HierarchyNode GetRootNode(Hierarchy hierarchy)
+        public HierarchyNode GetRootNode(HierarchyEntry hierarchy)
         {
             var sql = string.Format(@"
             					select id as Id, left_id as LeftId, right_id as RightId, target_id as TargetId
@@ -101,47 +103,47 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
         }
 
 
-        public HierarchyNode GetNodeByTarget(Hierarchy hierarchy, INodeTarget target)
+        public HierarchyNode GetNodeByTarget(HierarchyEntry hierarchy, ITarget target)
         {
             throw new NotImplementedException();
         }
 
-        public HierarchyNode GetBaseNodeByTarget(Hierarchy hierarchy, INodeTarget target)
+        public HierarchyNode GetBaseNodeByTarget(HierarchyEntry hierarchy, ITarget target)
         {
             throw new NotImplementedException();
         }
 
-        public List<HierarchyNode> GetNodesByTarget(Hierarchy hierarchy, INodeTarget target)
+        public List<HierarchyNode> GetNodesByTarget(HierarchyEntry hierarchy, ITarget target)
         {
             throw new NotImplementedException();
         }
 
-        public IList<HierarchyNode> GetList(Hierarchy hierarchy)
+        public IList<HierarchyNode> GetList(HierarchyEntry hierarchy)
         {
             throw new NotImplementedException();
         }
 
-        public IList<HierarchyNode> GetChildren(Hierarchy hierarchy, HierarchyNode parent)
+        public IList<HierarchyNode> GetChildren(HierarchyEntry hierarchy, HierarchyNode parent)
         {
             throw new NotImplementedException();
         }
 
-        public HierarchyNode GetParent(Hierarchy hierarchy, HierarchyNode child)
+        public HierarchyNode GetParent(HierarchyEntry hierarchy, HierarchyNode child)
         {
             throw new NotImplementedException();
         }
 
-        public IList<HierarchyNode> GetDescendants(Hierarchy hierarchy, HierarchyNode parent, bool orderTopDown, bool includeParent)
+        public IList<HierarchyNode> GetDescendants(HierarchyEntry hierarchy, HierarchyNode parent, bool orderTopDown, bool includeParent)
         {
             throw new NotImplementedException();
         }
 
-        public IList<HierarchyNode> GetAncestors(Hierarchy hierarchy, HierarchyNode child, bool orderTopDown, bool includeChild)
+        public IList<HierarchyNode> GetAncestors(HierarchyEntry hierarchy, HierarchyNode child, bool orderTopDown, bool includeChild)
         {
             throw new NotImplementedException();
         }
 
-        public void Add(Hierarchy hierarchy, HierarchyNode node)
+        public void Add(HierarchyEntry hierarchy, HierarchyNode node)
         {
             var insertQuery = string.Format(@"
 					INSERT INTO {0} (target_id, left_id, right_id)
@@ -175,12 +177,12 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
             }
         }
 
-        public void Delete(Hierarchy hierarchy, HierarchyNode node)
+        public void Delete(HierarchyEntry hierarchy, HierarchyNode node)
         {
             throw new NotImplementedException();
         }
 
-        public bool IsAncestorOrSame(Hierarchy hierarchy, HierarchyNode candidateNode, HierarchyNode node)
+        public bool IsAncestorOrSame(HierarchyEntry hierarchy, HierarchyNode candidateNode, HierarchyNode node)
         {
             throw new NotImplementedException();
         }
@@ -230,14 +232,14 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
 //            }
 
 //            var objArray = obj.DownCastTo<object[]>();
-//            var hierarchyNode = new HierarchyNode
+//            var HierarchyNode = new HierarchyNode
 //            {
 //                Id = objArray[0].DownCastTo<int>(),
 //                LeftId = objArray[1].DownCastTo<int>(),
 //                RightId = objArray[2].DownCastTo<int>(),
 //                TargetId = objArray[3].DownCastTo<int>()
 //            };
-//            return hierarchyNode;
+//            return HierarchyNode;
 //        }
 
 //        public HierarchyNode GetRootNode(IHierarchy hierarchy)
@@ -553,7 +555,7 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
 //            query.ExecuteUpdate();
 
 //            // TODO BKR - code review: to be consistent, HandleGap should be called by the HierarchyService.  Prepare is called by the service.  Closing up a gap should be as well.
-//            // The HierarchyService should be the singleton that handles locking code.  The HierarchyNodeRepository handles the individual db calls that combine to expose a tree api.
+//            // The HierarchyService should be the singleton that handles locking code.  The IHierarchyNodeRepository handles the individual db calls that combine to expose a tree api.
 //            HandleGap(hierarchy, node, false);
 //        }
 

@@ -1,105 +1,141 @@
-﻿using System.Configuration;
-using Nanarchy.Data.MssqlHierarchyDataProvider;
-using Nanarchy.Service;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace Nanarchy.Tests
 {
     [TestFixture]
     public class When_using_MssqlDataProvider
     {
-        [Test]
-        public void Should_handle_basic_CRUD_for_Hierarchy_record()
-        {
-            var connectionString = ConfigurationManager.ConnectionStrings["NanarchyDb"].ConnectionString;
+        //[Test]
+        //public void Should_create_tables_when_they_do_not_exist()
+        //{
+        //    var connectionString = ConfigurationManager.ConnectionStrings["NanarchyDb"].ConnectionString;
+        //    var provider = new MssqlDataProvider(connectionString);
+        //    var hierarchy = new HierarchyEntry
+        //    {
+        //        Name = "Test Hierarchy",
+        //        TableName = "test_hierarchy"
+        //    };
+        //    var targets = new List<TargetEntry>
+        //    {
+        //        new TargetEntry
+        //        {
+        //            Name = "Target One",
+        //            TableName = "target_one"
+        //        },
+        //        new TargetEntry
+        //        {
+        //            Name = "Target Two",
+        //            TableName = "target_two"
+        //        }
+        //    };
 
-            var provider = new MssqlDataProvider(connectionString);
+        //    // act
+        //    provider.InitializeDatabase(hierarchy, targets);
 
-            // create a new hierarchy
-            var hierarchy = new Hierarchy
-            {
-                Name = "Test Hierarchy",
-                TableName = "test_hierarchy"
-            };
+        //    // Assert
+        //    Assert.That(provider.TableExists("dbo", "Hierarchy"));
+        //    Assert.That(provider.TableExists("dbo", "Target"));
+        //    Assert.That(provider.TableExists("dbo", "target_one"));
+        //    Assert.That(provider.TableExists("dbo", "target_two"));
 
-            // add to storage
-            var hierarchyId = provider.UpdateHierarchy(hierarchy);
+        //    provider.DropTable("dbo", "Hierarchy");
+        //    provider.DropTable("dbo", "Target");
+        //    provider.DropTable("dbo", "target_one");
+        //    provider.DropTable("dbo", "target_two");
 
-            // retrieve from storage
-            var persistedHierarchy = provider.GetHierarchy(hierarchyId);
+        //}
+        //[Test]
+        //public void Should_handle_basic_CRUD_for_Hierarchy_record()
+        //{
+        //    var connectionString = ConfigurationManager.ConnectionStrings["NanarchyDb"].ConnectionString;
 
-            Assert.That(persistedHierarchy, Is.Not.Null);
-            Assert.That(persistedHierarchy.Id, Is.EqualTo(hierarchyId));
-            Assert.That(persistedHierarchy.Name, Is.EqualTo(hierarchy.Name));
-            Assert.That(persistedHierarchy.TableName, Is.EqualTo(hierarchy.TableName));
+        //    var provider = new MssqlDataProvider(connectionString);
 
-            // update, and save again
-            persistedHierarchy.Name = "New Hierarchy";
-            var revisedId = provider.UpdateHierarchy(persistedHierarchy);
-            Assert.That(revisedId, Is.EqualTo(hierarchyId));
+        //    // create a new hierarchy
+        //    var hierarchy = new HierarchyEntry
+        //    {
+        //        Name = "Test Hierarchy",
+        //        TableName = "test_hierarchy"
+        //    };
 
-            // retrieve from storage
-            var revisedHierarchy = provider.GetHierarchy(hierarchyId);
+        //    // add to storage
+        //    var hierarchyId = provider.UpdateHierarchyEntry(hierarchy);
 
-            Assert.That(revisedHierarchy, Is.Not.Null);
-            Assert.That(revisedHierarchy.Id, Is.EqualTo(hierarchyId));
-            Assert.That(revisedHierarchy.Name, Is.EqualTo("New Hierarchy"));
-            Assert.That(revisedHierarchy.TableName, Is.EqualTo(hierarchy.TableName));
+        //    // retrieve from storage
+        //    var persistedHierarchy = provider.GetHierarchyEntry(hierarchyId);
 
-            // delete from storage
-            var deleteSuccessful = provider.DeleteHierarchy(hierarchyId);
-            Assert.That(deleteSuccessful, Is.True);
+        //    Assert.That(persistedHierarchy, Is.Not.Null);
+        //    Assert.That(persistedHierarchy.Id, Is.EqualTo(hierarchyId));
+        //    Assert.That(persistedHierarchy.Name, Is.EqualTo(hierarchy.Name));
+        //    Assert.That(persistedHierarchy.TableName, Is.EqualTo(hierarchy.TableName));
 
-            // retrieve from storage
-            var deletedHierarchy = provider.GetHierarchy(hierarchyId);
-            Assert.That(deletedHierarchy, Is.Null);
-        }
+        //    // update, and save again
+        //    persistedHierarchy.Name = "New Hierarchy";
+        //    var revisedId = provider.UpdateHierarchyEntry(persistedHierarchy);
+        //    Assert.That(revisedId, Is.EqualTo(hierarchyId));
 
-        [Test]
-        public void Should_handle_basic_CRUD_for_Target_record()
-        {
-            var connectionString = ConfigurationManager.ConnectionStrings["NanarchyDb"].ConnectionString;
+        //    // retrieve from storage
+        //    var revisedHierarchy = provider.GetHierarchyEntry(hierarchyId);
 
-            var provider = new MssqlDataProvider(connectionString);
+        //    Assert.That(revisedHierarchy, Is.Not.Null);
+        //    Assert.That(revisedHierarchy.Id, Is.EqualTo(hierarchyId));
+        //    Assert.That(revisedHierarchy.Name, Is.EqualTo("New Hierarchy"));
+        //    Assert.That(revisedHierarchy.TableName, Is.EqualTo(hierarchy.TableName));
 
-            // create a new hierarchy
-            var target = new Target
-            {
-                Name = "Test Target",
-                TableName = "test_target"
-            };
+        //    // delete from storage
+        //    var deleteSuccessful = provider.DeleteHierarchyEntry(hierarchyId);
+        //    Assert.That(deleteSuccessful, Is.True);
 
-            // add to storage
-            var targetId = provider.UpdateTarget(target);
+        //    // retrieve from storage
+        //    var deletedHierarchy = provider.GetHierarchyEntry(hierarchyId);
+        //    Assert.That(deletedHierarchy, Is.Null);
+        //}
 
-            // retrieve from storage
-            var persistedTarget = provider.GetTarget(targetId);
+        //[Test]
+        //public void Should_handle_basic_CRUD_for_Target_record()
+        //{
+        //    var connectionString = ConfigurationManager.ConnectionStrings["NanarchyDb"].ConnectionString;
 
-            Assert.That(persistedTarget, Is.Not.Null);
-            Assert.That(persistedTarget.Id, Is.EqualTo(targetId));
-            Assert.That(persistedTarget.Name, Is.EqualTo(target.Name));
-            Assert.That(persistedTarget.TableName, Is.EqualTo(target.TableName));
+        //    var provider = new MssqlDataProvider(connectionString);
 
-            // update, and save again
-            persistedTarget.Name = "New Target";
-            var revisedId = provider.UpdateTarget(persistedTarget);
-            Assert.That(revisedId, Is.EqualTo(targetId));
+        //    // create a new hierarchy
+        //    var target = new TargetEntry
+        //    {
+        //        Name = "Test Target",
+        //        TableName = "test_target"
+        //    };
 
-            // retrieve from storage
-            var revisedTarget = provider.GetTarget(targetId);
+        //    // add to storage
+        //    var targetId = provider.UpdateTargetEntry(target);
 
-            Assert.That(revisedTarget, Is.Not.Null);
-            Assert.That(revisedTarget.Id, Is.EqualTo(targetId));
-            Assert.That(revisedTarget.Name, Is.EqualTo("New Target"));
-            Assert.That(revisedTarget.TableName, Is.EqualTo(target.TableName));
+        //    // retrieve from storage
+        //    var persistedTarget = provider.GetTargetEntry(targetId);
 
-            // delete from storage
-            var deleteSuccessful = provider.DeleteTarget(targetId);
-            Assert.That(deleteSuccessful, Is.True);
+        //    Assert.That(persistedTarget, Is.Not.Null);
+        //    Assert.That(persistedTarget.Id, Is.EqualTo(targetId));
+        //    Assert.That(persistedTarget.Name, Is.EqualTo(target.Name));
+        //    Assert.That(persistedTarget.TableName, Is.EqualTo(target.TableName));
 
-            // retrieve from storage
-            var deletedTarget = provider.GetTarget(targetId);
-            Assert.That(deletedTarget, Is.Null);
-        }
+        //    // update, and save again
+        //    persistedTarget.Name = "New Target";
+        //    var revisedId = provider.UpdateTargetEntry(persistedTarget);
+        //    Assert.That(revisedId, Is.EqualTo(targetId));
+
+        //    // retrieve from storage
+        //    var revisedTarget = provider.GetTargetEntry(targetId);
+
+        //    Assert.That(revisedTarget, Is.Not.Null);
+        //    Assert.That(revisedTarget.Id, Is.EqualTo(targetId));
+        //    Assert.That(revisedTarget.Name, Is.EqualTo("New Target"));
+        //    Assert.That(revisedTarget.TableName, Is.EqualTo(target.TableName));
+
+        //    // delete from storage
+        //    var deleteSuccessful = provider.DeleteTargetEntry(targetId);
+        //    Assert.That(deleteSuccessful, Is.True);
+
+        //    // retrieve from storage
+        //    var deletedTarget = provider.GetTargetEntry(targetId);
+        //    Assert.That(deletedTarget, Is.Null);
+        //}
     }
 }

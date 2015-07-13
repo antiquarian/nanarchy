@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
+using Nanarchy.Core;
+using Nanarchy.Core.Interfaces;
 
 namespace Nanarchy.Service
 {
     public interface IHierarchyService
     {
-        HierarchyNode InitializeHierarchy(INodeTarget rootTarget);
+        HierarchyNode InitializeHierarchy(ITarget rootTarget);
         HierarchyNode GetRootNode();
-        HierarchyNode InsertNode(HierarchyNode node, INodeTarget childTarget);
+        HierarchyNode InsertNode(HierarchyNode node, ITarget childTarget);
         HierarchyNode PrepareForInsertNode(HierarchyNode parentNode, HierarchyNode childNode);
         void DeleteNode(HierarchyNode node);
-        HierarchyNode GetNodeByTarget(INodeTarget node);
+        HierarchyNode GetNodeByTarget(ITarget node);
         IList<HierarchyNode> GetChildren(HierarchyNode parentNode);
         IList<HierarchyNode> GetDescendants(HierarchyNode parentNode, bool orderTopDown, bool includeParent);
         IList<HierarchyNode> GetAncestors(HierarchyNode node, bool orderTopDown, bool includeChild);
