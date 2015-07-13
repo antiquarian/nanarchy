@@ -1,45 +1,57 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="C:\git\nanarchy\Nanarchy.Tests\bin\Release\Nanarchy.Tests.dll" total="18" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2015-07-12" time="20:39:24">
+<test-results name="C:\git\nanarchy\Nanarchy.Tests\bin\Release\Nanarchy.Tests.dll" total="23" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2015-07-12" time="22:42:34">
   <environment nunit-version="2.6.2.12296" clr-version="2.0.50727.8009" os-version="Microsoft Windows NT 6.2.9200.0" platform="Win32NT" cwd="C:\git\nanarchy" machine-name="81169KXZ1" user="Scott_Johnson2" user-domain="AMERICAS" />
   <culture-info current-culture="en-US" current-uiculture="en-US" />
-  <test-suite type="Assembly" name="C:\git\nanarchy\Nanarchy.Tests\bin\Release\Nanarchy.Tests.dll" executed="True" result="Success" success="True" time="0.806" asserts="0">
+  <test-suite type="Assembly" name="C:\git\nanarchy\Nanarchy.Tests\bin\Release\Nanarchy.Tests.dll" executed="True" result="Success" success="True" time="1.294" asserts="0">
     <results>
-      <test-suite type="Namespace" name="Nanarchy" executed="True" result="Success" success="True" time="0.789" asserts="0">
+      <test-suite type="Namespace" name="Nanarchy" executed="True" result="Success" success="True" time="1.280" asserts="0">
         <results>
-          <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="0.789" asserts="0">
+          <test-suite type="Namespace" name="Tests" executed="True" result="Success" success="True" time="1.280" asserts="0">
             <results>
-              <test-suite type="Namespace" name="Repositories" executed="True" result="Success" success="True" time="0.512" asserts="0">
+              <test-suite type="Namespace" name="Repositories" executed="True" result="Success" success="True" time="0.534" asserts="0">
                 <results>
-                  <test-suite type="TestFixture" name="_When_using_HierarchyEntryRepository" executed="True" result="Success" success="True" time="0.511" asserts="0">
+                  <test-suite type="TestFixture" name="_When_using_HierarchyEntryRepository" executed="True" result="Success" success="True" time="0.489" asserts="0">
                     <results>
-                      <test-case name="Nanarchy.Tests.Repositories._When_using_HierarchyEntryRepository.Should_call_Delete_on_DataProvider" executed="True" result="Success" success="True" time="0.441" asserts="1" />
-                      <test-case name="Nanarchy.Tests.Repositories._When_using_HierarchyEntryRepository.Should_call_Get_on_DataProvider" executed="True" result="Success" success="True" time="0.044" asserts="1" />
+                      <test-case name="Nanarchy.Tests.Repositories._When_using_HierarchyEntryRepository.Should_call_Delete_on_DataProvider" executed="True" result="Success" success="True" time="0.424" asserts="1" />
+                      <test-case name="Nanarchy.Tests.Repositories._When_using_HierarchyEntryRepository.Should_call_Get_on_DataProvider" executed="True" result="Success" success="True" time="0.042" asserts="1" />
                       <test-case name="Nanarchy.Tests.Repositories._When_using_HierarchyEntryRepository.Should_call_Update_on_DataProvider" executed="True" result="Success" success="True" time="0.008" asserts="1" />
+                    </results>
+                  </test-suite>
+                  <test-suite type="TestFixture" name="_When_using_TargetEntryRepository" executed="True" result="Success" success="True" time="0.041" asserts="0">
+                    <results>
+                      <test-case name="Nanarchy.Tests.Repositories._When_using_TargetEntryRepository.Should_call_Delete_on_DataProvider" executed="True" result="Success" success="True" time="0.022" asserts="1" />
+                      <test-case name="Nanarchy.Tests.Repositories._When_using_TargetEntryRepository.Should_call_ExecuteSql_on_DataProvider" executed="True" result="Success" success="True" time="0.005" asserts="0" />
+                      <test-case name="Nanarchy.Tests.Repositories._When_using_TargetEntryRepository.Should_call_Get_on_DataProvider" executed="True" result="Success" success="True" time="0.006" asserts="1" />
+                      <test-case name="Nanarchy.Tests.Repositories._When_using_TargetEntryRepository.Should_call_Update_on_DataProvider" executed="True" result="Success" success="True" time="0.005" asserts="1" />
                     </results>
                   </test-suite>
                 </results>
               </test-suite>
-              <test-suite type="TestFixture" name="When_using_HierarchyService" executed="True" result="Success" success="True" time="0.156" asserts="0">
+              <test-suite type="TestFixture" name="When_using_HierarchyService" executed="True" result="Success" success="True" time="0.123" asserts="0">
                 <results>
-                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_ancestors_calling_GetAncestors" executed="True" result="Success" success="True" time="0.064" asserts="14" />
-                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_children_calling_GetChildren" executed="True" result="Success" success="True" time="0.006" asserts="6" />
-                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_descendants_calling_GetDescendants" executed="True" result="Success" success="True" time="0.007" asserts="14" />
-                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_parent_calling_GetParent" executed="True" result="Success" success="True" time="0.004" asserts="5" />
-                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_valid_node_calling_GetRootNode" executed="True" result="Success" success="True" time="0.003" asserts="4" />
+                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_ancestors_calling_GetAncestors" executed="True" result="Success" success="True" time="0.042" asserts="14" />
+                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_children_calling_GetChildren" executed="True" result="Success" success="True" time="0.005" asserts="6" />
+                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_descendants_calling_GetDescendants" executed="True" result="Success" success="True" time="0.009" asserts="14" />
+                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_parent_calling_GetParent" executed="True" result="Success" success="True" time="0.005" asserts="5" />
+                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_valid_node_calling_GetRootNode" executed="True" result="Success" success="True" time="0.004" asserts="4" />
                   <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_valid_node_calling_InsertNode" executed="True" result="Success" success="True" time="0.012" asserts="4" />
                   <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_valid_node_calling_PrepareForInsertNode" executed="True" result="Success" success="True" time="0.004" asserts="4" />
-                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_valid_Root_Node_calling_InitializeDatabase_when_tables_do_not_exist" executed="True" result="Success" success="True" time="0.022" asserts="1" />
-                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_valid_Root_Node_calling_InitializeDatabase_when_tables_exist" executed="True" result="Success" success="True" time="0.008" asserts="1" />
-                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_valid_Root_Node_calling_Initializehierarchy" executed="True" result="Success" success="True" time="0.006" asserts="4" />
-                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_verify_calling_DeleteNode" executed="True" result="Success" success="True" time="0.005" asserts="0" />
-                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_verify_calling_GetNodeByTarget" executed="True" result="Success" success="True" time="0.007" asserts="5" />
+                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_valid_Root_Node_calling_InitializeDatabase_when_tables_do_not_exist" executed="True" result="Success" success="True" time="0.013" asserts="1" />
+                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_valid_Root_Node_calling_InitializeDatabase_when_tables_exist" executed="True" result="Success" success="True" time="0.006" asserts="1" />
+                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_return_valid_Root_Node_calling_Initializehierarchy" executed="True" result="Success" success="True" time="0.004" asserts="4" />
+                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_verify_calling_DeleteNode" executed="True" result="Success" success="True" time="0.003" asserts="0" />
+                  <test-case name="Nanarchy.Tests.When_using_HierarchyService.Should_verify_calling_GetNodeByTarget" executed="True" result="Success" success="True" time="0.004" asserts="5" />
                 </results>
               </test-suite>
-              <test-suite type="TestFixture" name="When_using_MssqlDataProvider" executed="True" result="Inconclusive" success="False" time="0.000" asserts="0" />
-              <test-suite type="TestFixture" name="When_using_MssqlHierarchyDataProvider" executed="True" result="Success" success="True" time="0.105" asserts="0">
+              <test-suite type="TestFixture" name="When_using_MssqlDataProvider" executed="True" result="Success" success="True" time="0.614" asserts="0">
                 <results>
-                  <test-case name="Nanarchy.Tests.When_using_MssqlHierarchyDataProvider.Should_properly_initialize_sqlConnection" executed="True" result="Success" success="True" time="0.105" asserts="1" />
+                  <test-case name="Nanarchy.Tests.When_using_MssqlDataProvider.Should_handle_basic_CRUD_for_any_table" executed="True" result="Success" success="True" time="0.614" asserts="10" />
+                </results>
+              </test-suite>
+              <test-suite type="TestFixture" name="When_using_MssqlHierarchyDataProvider" executed="True" result="Success" success="True" time="0.001" asserts="0">
+                <results>
+                  <test-case name="Nanarchy.Tests.When_using_MssqlHierarchyDataProvider.Should_properly_initialize_sqlConnection" executed="True" result="Success" success="True" time="0.000" asserts="1" />
                 </results>
               </test-suite>
               <test-suite type="TestFixture" name="When_using_Node_and_related_classes" executed="True" result="Success" success="True" time="0.004" asserts="0">

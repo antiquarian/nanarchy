@@ -8,6 +8,15 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
 {
     public class MssqlDataProvider : IDataProvider
     {
+        #region Public Members
+
+        public string ConnectionString
+        {
+            get {  return _connectionString; }
+        }
+
+        #endregion
+
         private readonly string _connectionString;
 
         public MssqlDataProvider(string connectionString)
@@ -38,7 +47,14 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
                 using (var command = new SqlCommand(sql, conn))
                 {
                     conn.Open();
-                    result = command.ExecuteNonQuery();
+                    try
+                    {
+                        result = command.ExecuteNonQuery();
+                    }
+                    catch
+                    {
+                        // only fails if table was missing, so no need to drop. Silly developers.
+                    }
                     if (conn.State == ConnectionState.Open) conn.Close();
                 }
             }
@@ -120,7 +136,7 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
             var checkSql = @"SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
                  WHERE TABLE_SCHEMA = @SchemaName 
-                 AND  TABLE_NAME = @tableName";
+                 AND  TABLE_NAME = @TableName";
             var tableExists = false;
             using (var conn = new SqlConnection(_connectionString))
             {

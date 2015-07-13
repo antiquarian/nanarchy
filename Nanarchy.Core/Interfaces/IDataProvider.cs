@@ -6,6 +6,7 @@ namespace Nanarchy.Core.Interfaces
 {
     public interface IDataProvider
     {
+        string ConnectionString { get; }
         int ExecuteSql(string sql);
         bool TableExists(string schemaName, string tableName);
         bool DropTable(string schemaName, string tableName);

@@ -59,7 +59,7 @@ namespace Nanarchy.Core.Interfaces
         /// </summary>
         /// <param name="hierarchy"></param>
         /// <param name="node"></param>
-        void Add(HierarchyEntry hierarchy, HierarchyNode node);
+        int Add(HierarchyEntry hierarchy, HierarchyNode node);
 
         /// <summary>
         /// Delete a leaf-node from the hierarchy

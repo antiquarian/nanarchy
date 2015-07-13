@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using Nanarchy.Core;
 using Nanarchy.Data.MssqlHierarchyDataProvider;
 using NUnit.Framework;
 
@@ -10,46 +9,6 @@ namespace Nanarchy.Tests
     [TestFixture]
     public class When_using_MssqlDataProvider
     {
-
-        //[Test]
-        //public void Should_create_tables_when_they_do_not_exist()
-        //{
-        //    var connectionString = ConfigurationManager.ConnectionStrings["NanarchyDb"].ConnectionString;
-        //    var provider = new MssqlDataProvider(connectionString);
-        //    var hierarchy = new HierarchyEntry
-        //    {
-        //        Name = "Test Hierarchy",
-        //        TableName = "test_hierarchy"
-        //    };
-        //    var targets = new List<TargetEntry>
-        //    {
-        //        new TargetEntry
-        //        {
-        //            Name = "Target One",
-        //            TableName = "target_one"
-        //        },
-        //        new TargetEntry
-        //        {
-        //            Name = "Target Two",
-        //            TableName = "target_two"
-        //        }
-        //    };
-
-        //    // act
-        //    provider.InitializeDatabase(hierarchy, targets);
-
-        //    // Assert
-        //    Assert.That(provider.TableExists("dbo", "Hierarchy"));
-        //    Assert.That(provider.TableExists("dbo", "Target"));
-        //    Assert.That(provider.TableExists("dbo", "target_one"));
-        //    Assert.That(provider.TableExists("dbo", "target_two"));
-
-        //    provider.DropTable("dbo", "Hierarchy");
-        //    provider.DropTable("dbo", "Target");
-        //    provider.DropTable("dbo", "target_one");
-        //    provider.DropTable("dbo", "target_two");
-
-        //}
         [Test]
         public void Should_handle_basic_CRUD_for_any_table()
         {
@@ -130,52 +89,5 @@ namespace Nanarchy.Tests
 
             return target;
         }
-
-        //[Test]
-        //public void Should_handle_basic_CRUD_for_Target_record()
-        //{
-        //    var connectionString = ConfigurationManager.ConnectionStrings["NanarchyDb"].ConnectionString;
-
-        //    var provider = new MssqlDataProvider(connectionString);
-
-        //    // create a new hierarchy
-        //    var target = new TargetEntry
-        //    {
-        //        Name = "Test Target",
-        //        TableName = "test_target"
-        //    };
-
-        //    // add to storage
-        //    var targetId = provider.UpdateTargetEntry(target);
-
-        //    // retrieve from storage
-        //    var persistedTarget = provider.GetTargetEntry(targetId);
-
-        //    Assert.That(persistedTarget, Is.Not.Null);
-        //    Assert.That(persistedTarget.Id, Is.EqualTo(targetId));
-        //    Assert.That(persistedTarget.Name, Is.EqualTo(target.Name));
-        //    Assert.That(persistedTarget.TableName, Is.EqualTo(target.TableName));
-
-        //    // update, and save again
-        //    persistedTarget.Name = "New Target";
-        //    var revisedId = provider.UpdateTargetEntry(persistedTarget);
-        //    Assert.That(revisedId, Is.EqualTo(targetId));
-
-        //    // retrieve from storage
-        //    var revisedTarget = provider.GetTargetEntry(targetId);
-
-        //    Assert.That(revisedTarget, Is.Not.Null);
-        //    Assert.That(revisedTarget.Id, Is.EqualTo(targetId));
-        //    Assert.That(revisedTarget.Name, Is.EqualTo("New Target"));
-        //    Assert.That(revisedTarget.TableName, Is.EqualTo(target.TableName));
-
-        //    // delete from storage
-        //    var deleteSuccessful = provider.DeleteTargetEntry(targetId);
-        //    Assert.That(deleteSuccessful, Is.True);
-
-        //    // retrieve from storage
-        //    var deletedTarget = provider.GetTargetEntry(targetId);
-        //    Assert.That(deletedTarget, Is.Null);
-        //}
     }
 }
