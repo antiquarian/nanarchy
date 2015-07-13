@@ -32,13 +32,11 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
         public bool DropTable(string schemaName, string tableName)
         {
             var result = 0;
-            var sql = "DROP TABLE [@SchemaName].[@TableName]";
+            var sql = string.Format("DROP TABLE [{0}].[{1}]", schemaName, tableName);
             using (var conn = new SqlConnection(_connectionString))
             {
                 using (var command = new SqlCommand(sql, conn))
                 {
-                    command.Parameters.AddWithValue("@SchemaName", schemaName);
-                    command.Parameters.AddWithValue("@TableName", tableName);
                     conn.Open();
                     result = command.ExecuteNonQuery();
                     if (conn.State == ConnectionState.Open) conn.Close();
@@ -50,14 +48,11 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
         public bool Delete(string schemaName, string tableName, int id)
         {
             var result = 0;
-            var sql = "DELETE FROM [@SchemaName].[@TableName] WHERE id = @Id";
+            var sql = string.Format("DELETE FROM [{0}].[{1}] WHERE id = {2}", schemaName, tableName, id);
             using (var conn = new SqlConnection(_connectionString))
             {
                 using (var command = new SqlCommand(sql, conn))
                 {
-                    command.Parameters.AddWithValue("@SchemaName", schemaName);
-                    command.Parameters.AddWithValue("@TableName", tableName);
-                    command.Parameters.AddWithValue("@Id", id);
                     conn.Open();
                     result = command.ExecuteNonQuery();
                     if (conn.State == ConnectionState.Open) conn.Close();
@@ -73,6 +68,7 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
             {
                 using (var command = new SqlCommand(sql, conn))
                 {
+
                     foreach (var parameterValue in parameterValues)
                     {
                         command.Parameters.AddWithValue(parameterValue.Key, parameterValue.Value);
@@ -84,6 +80,7 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
                     }
                     else
                     {
+                        command.Parameters.AddWithValue("@Id", id);
                         var rowsAffected = command.ExecuteNonQuery();
                         result = rowsAffected == 0 ? 0 : id;
                     }

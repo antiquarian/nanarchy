@@ -11,11 +11,12 @@ namespace Nanarchy.Tests
     [TestFixture]
     public class When_using_HierarchyService 
     {
+        private HierarchyEntry hierarchyEntry = new HierarchyEntry { Name = "Profile", TableName = "profile" }; 
         [Test]
         public void Should_return_valid_Root_Node_calling_Initializehierarchy()
         {
             // arrange
-            var hierarchyEntry = new TestHierarchyEntry("Profile"); 
+            
             var rootNodeTarget = new TestTarget
             {
                 Id = 0,
@@ -45,7 +46,6 @@ namespace Nanarchy.Tests
         public void Should_return_valid_Root_Node_calling_InitializeDatabase_when_tables_exist()
         {
             // arrange
-            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var mockDataProvider = new Mock<IHierarchyDataProvider>();
             var mockHierarchyRepository = new Mock<IHierarchyEntryRepository>();
             mockHierarchyRepository.Setup(p => p.TableExists()).Returns(true);
@@ -76,9 +76,7 @@ namespace Nanarchy.Tests
         public void Should_return_valid_Root_Node_calling_InitializeDatabase_when_tables_do_not_exist()
         {
             // arrange
-            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var mockDataProvider = new Mock<IHierarchyDataProvider>();
-
             var mockHierarchyRepository = new Mock<IHierarchyEntryRepository>();
             mockHierarchyRepository.Setup(p => p.TableExists()).Returns(false);
             mockHierarchyRepository.Setup(p => p.TableExists()).Returns(true);
@@ -111,7 +109,6 @@ namespace Nanarchy.Tests
         public void Should_return_valid_node_calling_GetRootNode()
         {
             // arrange
-            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var rootNodeTarget = new HierarchyNode
             {
                 Id = 0,
@@ -142,7 +139,6 @@ namespace Nanarchy.Tests
         public void Should_return_valid_node_calling_PrepareForInsertNode()
         {
             // arrange
-            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var parentNode = new HierarchyNode
             {
                 Id = 0,
@@ -179,7 +175,6 @@ namespace Nanarchy.Tests
         public void Should_return_valid_node_calling_InsertNode()
         {
             // arrange
-            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var parentNode = new HierarchyNode
             {
                 Id = 0,
@@ -217,7 +212,6 @@ namespace Nanarchy.Tests
         public void Should_verify_calling_DeleteNode()
         {
             // arrange
-            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var deleteNode = new HierarchyNode
             {
                 Id = 1,
@@ -242,7 +236,6 @@ namespace Nanarchy.Tests
         public void Should_verify_calling_GetNodeByTarget()
         {
             // arrange
-            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var testTarget = new TestTarget
             {
                 Id = 345,
@@ -279,7 +272,6 @@ namespace Nanarchy.Tests
         public void Should_return_children_calling_GetChildren()
         {
             // arrange
-            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var testTarget = new TestTarget
             {
                 Id = 345,
@@ -332,7 +324,6 @@ namespace Nanarchy.Tests
         public void Should_return_descendants_calling_GetDescendants()
         {
             // arrange
-            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var testTarget = new TestTarget
             {
                 Id = 345,
@@ -393,7 +384,6 @@ namespace Nanarchy.Tests
         public void Should_return_ancestors_calling_GetAncestors()
         {
             // arrange
-            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var testTarget = new TestTarget
             {
                 Id = 345,
@@ -454,7 +444,6 @@ namespace Nanarchy.Tests
         public void Should_return_parent_calling_GetParent()
         {
             // arrange
-            var hierarchyEntry = new TestHierarchyEntry("Profile");
             var testTarget = new TestTarget
             {
                 Id = 345,

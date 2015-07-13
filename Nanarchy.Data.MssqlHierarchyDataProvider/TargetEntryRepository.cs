@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using Nanarchy.Core;
 using Nanarchy.Core.Interfaces;
@@ -16,7 +15,15 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
         }
         public override void Initialize()
         {
-            throw new NotImplementedException();
+            var createSql = string.Format(@"CREATE TABLE [{0}].[{1}](
+	                [id] [int] IDENTITY(1,1) NOT NULL,
+	                [name] [nvarchar](50) NOT NULL,
+	                [table_name] [nvarchar](100) NOT NULL,
+                    CONSTRAINT [PK_{1}] PRIMARY KEY CLUSTERED 
+                        ([id] ASC)
+                    WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+                ) ON [PRIMARY]", SchemaName, TableName);
+            DataProvider.ExecuteSql(createSql);
         }
         #region Target Methods
         public override TargetEntry Get(int id)

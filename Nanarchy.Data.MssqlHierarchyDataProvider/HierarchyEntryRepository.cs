@@ -20,7 +20,7 @@ namespace Nanarchy.Data.MssqlHierarchyDataProvider
         {
             var createSql = string.Format(@"CREATE TABLE [{0}].[{1}](
 	                [id] [int] IDENTITY(1,1) NOT NULL,
-	                [hierarchy_name] [nvarchar](50) NOT NULL,
+	                [name] [nvarchar](50) NOT NULL,
 	                [table_name] [nvarchar](100) NOT NULL,
                     CONSTRAINT [PK_Hierarchy] PRIMARY KEY CLUSTERED 
                         ([id] ASC)

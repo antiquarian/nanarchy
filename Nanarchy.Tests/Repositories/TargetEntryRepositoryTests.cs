@@ -33,6 +33,7 @@ namespace Nanarchy.Tests.Repositories
 
             // assert
             Assert.That(result, Is.EqualTo(34));
+            mockDataProvider.Verify(p => p.Update(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<IEnumerable<KeyValuePair<string, object>>>()));
         }
 
         [Test]
@@ -57,6 +58,7 @@ namespace Nanarchy.Tests.Repositories
 
             // assert
             Assert.That(result.Id, Is.EqualTo(34));
+            mockDataProvider.Verify(p => p.Get(It.IsAny<string>(), It.IsAny<int>(), It.IsAny<Func<IDataRecord, TargetEntry>>()));
         }
 
         [Test]
@@ -75,6 +77,22 @@ namespace Nanarchy.Tests.Repositories
 
             // assert
             Assert.That(result, Is.True);
+            mockDataProvider.Verify(p => p.Delete(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<int>()));
+        }
+
+        [Test]
+        public void Should_call_ExecuteSql_on_DataProvider()
+        {
+            // arrange
+            var mockDataProvider = new Mock<IDataProvider>();
+            mockDataProvider.Setup(p => p.ExecuteSql(It.IsAny<string>()));
+            var repository = new TargetEntryRepository(mockDataProvider.Object);
+
+            // act
+            repository.Initialize();
+
+            // assert
+            mockDataProvider.Verify(p => p.ExecuteSql(It.IsAny<string>()));
         }
     }
 }
