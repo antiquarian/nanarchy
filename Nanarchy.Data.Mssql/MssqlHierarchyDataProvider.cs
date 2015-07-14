@@ -5,7 +5,7 @@ using Nanarchy.Core;
 using Nanarchy.Core.Interfaces;
 using UsefulUtilities;
 
-namespace Nanarchy.Data.MssqlHierarchyDataProvider
+namespace Nanarchy.Data.Mssql
 {
     public class MssqlHierarchyDataProvider : IHierarchyDataProvider
     {

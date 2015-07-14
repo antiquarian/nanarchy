@@ -30,7 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>
@@ -53,8 +53,9 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="UsefulUtilities">
-      <HintPath>..\packages\UsefulUtilities.1.0.0\lib\UsefulUtilities.dll</HintPath>
+    <Reference Include="UsefulUtilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e9f2aaaef6c49cf2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UsefulUtilities.1.0.1\lib\UsefulUtilities.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

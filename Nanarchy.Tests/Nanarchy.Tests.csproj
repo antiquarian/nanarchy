@@ -64,9 +64,9 @@
       <Project>{5206df62-175a-4490-9c54-ad1d4d719efc}</Project>
       <Name>Nanarchy.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Nanarchy.Data.MssqlHierarchyDataProvider\Nanarchy.Data.MssqlHierarchyDataProvider.csproj">
+    <ProjectReference Include="..\Nanarchy.Data.Mssql\Nanarchy.Data.Mssql.csproj">
       <Project>{03F1081A-6A68-469C-8677-BD12B017C123}</Project>
-      <Name>Nanarchy.Data.MssqlHierarchyDataProvider</Name>
+      <Name>Nanarchy.Data.Mssql</Name>
     </ProjectReference>
     <ProjectReference Include="..\Nanarchy\Nanarchy.csproj">
       <Project>{6E46D382-F550-4B5F-8EED-07760D91AA08}</Project>

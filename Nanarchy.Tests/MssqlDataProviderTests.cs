@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using Nanarchy.Data.MssqlHierarchyDataProvider;
+using Nanarchy.Data.Mssql;
 using NUnit.Framework;
 
 namespace Nanarchy.Tests

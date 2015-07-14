@@ -5,3 +5,5 @@ Nanarchy/obj/
 Nanarchy.Core/obj/
 *.ncrunchproject
 *.ncrunchsolution
+*.pfx
+Nanarchy.Data.Mssql/obj/

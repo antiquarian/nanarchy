@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using Nanarchy.Core.Interfaces;
 
-namespace Nanarchy.Data.MssqlHierarchyDataProvider
+namespace Nanarchy.Data.Mssql
 {
     public class MssqlDataProvider : IDataProvider
     {

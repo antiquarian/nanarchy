@@ -4,7 +4,7 @@ using System.Data;
 using Moq;
 using Nanarchy.Core;
 using Nanarchy.Core.Interfaces;
-using Nanarchy.Data.MssqlHierarchyDataProvider;
+using Nanarchy.Data.Mssql;
 using NUnit.Framework;
 
 namespace Nanarchy.Tests.Repositories

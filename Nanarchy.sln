@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nanarchy", "Nanarchy\Nanarc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nanarchy.Tests", "Nanarchy.Tests\Nanarchy.Tests.csproj", "{80384D5A-865E-4041-ADAC-6EB6ECE56747}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nanarchy.Data.MssqlHierarchyDataProvider", "Nanarchy.Data.MssqlHierarchyDataProvider\Nanarchy.Data.MssqlHierarchyDataProvider.csproj", "{03F1081A-6A68-469C-8677-BD12B017C123}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nanarchy.Data.Mssql", "Nanarchy.Data.Mssql\Nanarchy.Data.Mssql.csproj", "{03F1081A-6A68-469C-8677-BD12B017C123}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nanarchy.Core", "Nanarchy.Core\Nanarchy.Core.csproj", "{5206DF62-175A-4490-9C54-AD1D4D719EFC}"
 EndProject
