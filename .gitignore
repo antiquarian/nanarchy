@@ -2,3 +2,6 @@ Nanarchy.Tests/bin/
 Nanarchy.Tests/obj/
 Nanarchy/bin/
 Nanarchy/obj/
+Nanarchy.Core/obj/
+*.ncrunchproject
+*.ncrunchsolution

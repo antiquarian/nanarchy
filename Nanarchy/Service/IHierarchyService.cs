@@ -11,7 +11,6 @@ namespace Nanarchy.Service
         HierarchyNode InsertNode(HierarchyNode node, ITarget childTarget);
         HierarchyNode PrepareForInsertNode(HierarchyNode parentNode, HierarchyNode childNode);
         void DeleteNode(HierarchyNode node);
-        HierarchyNode GetNodeByTarget(ITarget node);
         IList<HierarchyNode> GetChildren(HierarchyNode parentNode);
         IList<HierarchyNode> GetDescendants(HierarchyNode parentNode, bool orderTopDown, bool includeParent);
         IList<HierarchyNode> GetAncestors(HierarchyNode node, bool orderTopDown, bool includeChild);

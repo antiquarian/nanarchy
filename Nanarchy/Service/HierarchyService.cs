@@ -96,11 +96,6 @@ namespace Nanarchy.Service
             _hierarchyDataProvider.Delete(_hierarchy, node);
         }
 
-        public HierarchyNode GetNodeByTarget(ITarget target)
-        {
-            return _hierarchyDataProvider.GetNodeByTarget(_hierarchy, target);
-        }
-
         public IList<HierarchyNode> GetChildren(HierarchyNode parentNode)
         {
             return _hierarchyDataProvider.GetChildren(_hierarchy, parentNode);

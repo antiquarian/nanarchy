@@ -79,6 +79,21 @@ namespace Nanarchy.Tests
             Assert.That(persistedRootNode.LeftId, Is.EqualTo(1));
             Assert.That(persistedRootNode.RightId, Is.EqualTo(6));
 
+            // delete a node
+            var deleteNode = secondChildren[1];
+            provider.Delete(hierarchyEntry, deleteNode);
+
+            // verify revised hierarchy
+            persistedRootNode = provider.GetRootNode(hierarchyEntry);
+            var children = provider.GetChildren(hierarchyEntry, persistedRootNode);
+
+            Assert.That(children.Count, Is.EqualTo(1));
+            Assert.That(children[0].Id, Is.Not.EqualTo(0));
+            Assert.That(children[0].LeftId, Is.EqualTo(2));
+            Assert.That(children[0].RightId, Is.EqualTo(3));
+            Assert.That(persistedRootNode.LeftId, Is.EqualTo(1));
+            Assert.That(persistedRootNode.RightId, Is.EqualTo(4));
+
             // clean up
             dataProvider.DropTable(hierarchyEntry.SchemaName, hierarchyEntry.TableName);
         }

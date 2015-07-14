@@ -1,8 +1,0 @@
-C:\git\nanarchy\Nanarchy.Data.MssqlHierarchyDataProvider\bin\Debug\Nanarchy.Data.MssqlHierarchyDataProvider.dll
-C:\git\nanarchy\Nanarchy.Data.MssqlHierarchyDataProvider\bin\Debug\Nanarchy.Data.MssqlHierarchyDataProvider.pdb
-C:\git\nanarchy\Nanarchy.Data.MssqlHierarchyDataProvider\bin\Debug\Nanarchy.Core.dll
-C:\git\nanarchy\Nanarchy.Data.MssqlHierarchyDataProvider\bin\Debug\UsefulUtilities.dll
-C:\git\nanarchy\Nanarchy.Data.MssqlHierarchyDataProvider\bin\Debug\Nanarchy.Core.pdb
-C:\git\nanarchy\Nanarchy.Data.MssqlHierarchyDataProvider\obj\Debug\Nanarchy.Data.MssqlHierarchyDataProvider.csprojResolveAssemblyReference.cache
-C:\git\nanarchy\Nanarchy.Data.MssqlHierarchyDataProvider\obj\Debug\Nanarchy.Data.MssqlHierarchyDataProvider.dll
-C:\git\nanarchy\Nanarchy.Data.MssqlHierarchyDataProvider\obj\Debug\Nanarchy.Data.MssqlHierarchyDataProvider.pdb
