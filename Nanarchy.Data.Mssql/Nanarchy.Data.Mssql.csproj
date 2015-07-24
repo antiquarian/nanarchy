@@ -38,12 +38,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="UsefulUtilities">
       <HintPath>..\packages\UsefulUtilities.1.0.1\lib\UsefulUtilities.dll</HintPath>
     </Reference>
@@ -54,6 +53,7 @@
     <Compile Include="MssqlHierarchyDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TargetEntryRepository.cs" />
+    <Compile Include="TargetRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Nanarchy.Core\Nanarchy.Core.csproj">

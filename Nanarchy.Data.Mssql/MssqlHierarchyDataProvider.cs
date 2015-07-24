@@ -256,7 +256,7 @@ namespace Nanarchy.Data.Mssql
             return ancestors;
         }
 
-        private bool HierarchyInitialized(HierarchyEntry hierarchyEntry)
+        public bool HierarchyInitialized(HierarchyEntry hierarchyEntry)
         {
             if (_hierarchyInitialized.ContainsKey(hierarchyEntry.Id))
             {

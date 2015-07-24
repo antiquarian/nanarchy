@@ -1,61 +1,57 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Nanarchy.Core;
 using Nanarchy.Core.Interfaces;
+using Nanarchy.Data.Mssql;
 
 namespace Nanarchy.Service
 {
     public class HierarchyService : IHierarchyService
     {
-        private readonly IHierarchyDataProvider _hierarchyDataProvider;
-        private readonly HierarchyEntry _hierarchy;
-        private readonly IHierarchyEntryRepository _hierarchyRepository;
-        private readonly ITargetEntryRepository _targetRepository;
+        private readonly IHierarchyDataProvider hierarchyEntryDataProvider;
+        private readonly IHierarchyEntryRepository hierarchyEntryEntryRepository;
+        private readonly ITargetEntryRepository _targetEntryRepository;
+        private readonly ITargetRepository _targetRepository;
+        private readonly List<Type> _targetTypes;
+        private string _schemaName;
 
         public HierarchyService(
             IHierarchyDataProvider hierarchyDataProvider, 
-            HierarchyEntry hierarchy,
-            IHierarchyEntryRepository  hierarchyRepository,
-            ITargetEntryRepository targetRepository)
+            IHierarchyEntryRepository  hierarchyEntryRepository,
+            ITargetEntryRepository targetEntryRepository,
+            ITargetRepository targetRepository,
+            List<Type> targetTypes)
         {
-            _hierarchyDataProvider = hierarchyDataProvider;
-            _hierarchy = hierarchy;
-            _hierarchyRepository = hierarchyRepository;
+            hierarchyEntryDataProvider = hierarchyDataProvider;
+            hierarchyEntryEntryRepository = hierarchyEntryRepository;
+            _targetEntryRepository = targetEntryRepository;
             _targetRepository = targetRepository;
+            _targetTypes = targetTypes;
         }
 
         #region Initialization Methods - used on startup
-        public bool InitializeDatabase(HierarchyEntry hierarchy, List<TargetEntry> nodeTargets)
-        {
-            var check = VerifyManagementTables();
-            if (!check) return false;
 
-            _hierarchyRepository.Update(hierarchy);
-            foreach (var nodeTarget in nodeTargets)
-            {
-                _targetRepository.Update(nodeTarget);
-            }
-            return true;
-        }
-        private bool VerifyManagementTables()
-        {
-            if (!_hierarchyRepository.TableExists())
-            {
-                _hierarchyRepository.Initialize();
-                if (!_hierarchyRepository.TableExists()) return false;
-            }
 
-            if (!_targetRepository.TableExists())
+        public void Initialize()
+        {
+            hierarchyEntryEntryRepository.Initialize();
+            _targetEntryRepository.Initialize();
+            
+
+            if (_targetTypes == null || !_targetTypes.Any()) return;
+
+            foreach (var targetType in _targetTypes)
             {
-                _targetRepository.Initialize();
-                if (!_targetRepository.TableExists()) return false;
+                var target = (ITarget) Activator.CreateInstance(targetType);
+                var tableName = target.TableName;
+                _targetRepository.Initialize(tableName);
             }
-            return true;
         }
 
         #endregion
 
-
-        public HierarchyNode InitializeHierarchy(ITarget rootTarget)
+        public HierarchyNode InitializeHierarchy(HierarchyEntry hierarchyEntry, ITarget rootTarget = null)
         {
             var rootNode = new HierarchyNode
             {
@@ -65,55 +61,55 @@ namespace Nanarchy.Service
             };
 
             // initialize the target table for the node
-            _hierarchyDataProvider.Add(_hierarchy, rootNode);
+            hierarchyEntryDataProvider.Add(hierarchyEntry, rootNode);
 
             return rootNode;
         }
 
-        public HierarchyNode GetRootNode()
+        public HierarchyNode GetRootNode(HierarchyEntry hierarchyEntry)
         {
-            return _hierarchyDataProvider.GetRootNode(_hierarchy);
+            return hierarchyEntryDataProvider.GetRootNode(hierarchyEntry);
         }
 
-        public HierarchyNode InsertNode(HierarchyNode parentNode, ITarget childTarget)
+        public HierarchyNode InsertNode(HierarchyEntry hierarchyEntry, HierarchyNode parentNode, ITarget childTarget)
         {
             var childNode = new HierarchyNode { TargetId = childTarget.Id };
-            childNode = PrepareForInsertNode(parentNode, childNode);
-            _hierarchyDataProvider.Add(_hierarchy, childNode);
+            childNode = PrepareForInsertNode(hierarchyEntry, parentNode, childNode);
+            hierarchyEntryDataProvider.Add(hierarchyEntry, childNode);
             return childNode;
         }
 
-        public HierarchyNode PrepareForInsertNode(HierarchyNode parentNode, HierarchyNode childNode)
+        public HierarchyNode PrepareForInsertNode(HierarchyEntry hierarchyEntry, HierarchyNode parentNode, HierarchyNode childNode)
         {
             childNode.LeftId = parentNode.RightId;
-            _hierarchyDataProvider.PrepareForInsertNode(_hierarchy, parentNode);
+            hierarchyEntryDataProvider.PrepareForInsertNode(hierarchyEntry, parentNode);
             childNode.RightId = childNode.LeftId + 1;
             return childNode;
         }
 
-        public void DeleteNode(HierarchyNode node)
+        public void DeleteNode(HierarchyEntry hierarchyEntry, HierarchyNode node)
         {
-            _hierarchyDataProvider.Delete(_hierarchy, node);
+            hierarchyEntryDataProvider.Delete(hierarchyEntry, node);
         }
 
-        public IList<HierarchyNode> GetChildren(HierarchyNode parentNode)
+        public IList<HierarchyNode> GetChildren(HierarchyEntry hierarchyEntry, HierarchyNode parentNode)
         {
-            return _hierarchyDataProvider.GetChildren(_hierarchy, parentNode);
+            return hierarchyEntryDataProvider.GetChildren(hierarchyEntry, parentNode);
         }
 
-        public IList<HierarchyNode> GetDescendants(HierarchyNode parentNode, bool orderTopDown, bool includeParent)
+        public IList<HierarchyNode> GetDescendants(HierarchyEntry hierarchyEntry, HierarchyNode parentNode, bool orderTopDown, bool includeParent)
         {
-            return _hierarchyDataProvider.GetDescendants(_hierarchy, parentNode, orderTopDown, includeParent);
+            return hierarchyEntryDataProvider.GetDescendants(hierarchyEntry, parentNode, orderTopDown, includeParent);
         }
 
-        public IList<HierarchyNode> GetAncestors(HierarchyNode node, bool orderTopDown, bool includeChild)
+        public IList<HierarchyNode> GetAncestors(HierarchyEntry hierarchyEntry, HierarchyNode node, bool orderTopDown, bool includeChild)
         {
-            return _hierarchyDataProvider.GetAncestors(_hierarchy, node, orderTopDown, includeChild);
+            return hierarchyEntryDataProvider.GetAncestors(hierarchyEntry, node, orderTopDown, includeChild);
         }
 
-        public HierarchyNode GetParent(HierarchyNode node)
+        public HierarchyNode GetParent(HierarchyEntry hierarchyEntry, HierarchyNode node)
         {
-            return _hierarchyDataProvider.GetParent(_hierarchy, node);
+            return hierarchyEntryDataProvider.GetParent(hierarchyEntry, node);
         }
     }
 }

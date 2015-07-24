@@ -70,5 +70,7 @@ namespace Nanarchy.Core.Interfaces
         /// <param name="hierarchy"></param>
         /// <param name="node"></param>
         bool Delete(HierarchyEntry hierarchy, HierarchyNode node);
+
+        bool HierarchyInitialized(HierarchyEntry hierarchyEntry);
     }
 }

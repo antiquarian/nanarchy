@@ -41,13 +41,20 @@
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="UsefulUtilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e9f2aaaef6c49cf2, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\UsefulUtilities.1.0.1\lib\UsefulUtilities.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\JsonHelperTests.cs" />
     <Compile Include="HierarchyServiceTests.cs" />
-    <Compile Include="MssqlDataProviderTests.cs" />
-    <Compile Include="MssqlHierarchyDataProviderTests.cs" />
-    <Compile Include="Repositories\HierarchyEntryRepositoryTests.cs" />
-    <Compile Include="Repositories\TargetEntryRepositoryTests.cs" />
+    <Compile Include="Data\MssqlDataProviderTests.cs" />
+    <Compile Include="Data\MssqlHierarchyDataProviderTests.cs" />
+    <Compile Include="Data\HierarchyEntryRepositoryTests.cs" />
+    <Compile Include="Data\TargetEntryRepositoryTests.cs" />
+    <Compile Include="Data\TargetRepositoryTests.cs" />
     <Compile Include="TestData\TestTargetOne.cs" />
     <Compile Include="NodeTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

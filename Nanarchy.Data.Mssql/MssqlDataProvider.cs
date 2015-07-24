@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using Nanarchy.Core.Interfaces;
@@ -19,9 +20,9 @@ namespace Nanarchy.Data.Mssql
 
         private readonly string _connectionString;
 
-        public MssqlDataProvider(string connectionString)
+        public MssqlDataProvider()
         {
-            _connectionString = connectionString;
+            _connectionString = ConfigurationManager.ConnectionStrings["NanarchyDb"].ConnectionString;
         }
 
         #region Database Methods
@@ -129,7 +130,6 @@ namespace Nanarchy.Data.Mssql
             // returns NULL if not found
             return target;
         }
-
 
         public bool TableExists(string schemaName, string tableName)
         {

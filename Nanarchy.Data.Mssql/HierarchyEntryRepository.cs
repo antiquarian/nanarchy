@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
+using System.Linq;
 using Nanarchy.Core;
+using Nanarchy.Core.Configuration;
 using Nanarchy.Core.Interfaces;
 using UsefulUtilities;
 
@@ -8,17 +11,25 @@ namespace Nanarchy.Data.Mssql
 {
     public class HierarchyEntryRepository : Repository<HierarchyEntry>, IHierarchyEntryRepository
     {
-        public HierarchyEntryRepository(IDataProvider dataProvider) : base(dataProvider)
+        private List<HierarchyEntry> _hierarchyEntries;
+
+        protected List<HierarchyEntry> HierarchyEntries
         {
-            SchemaName = "dbo";
-            TableName = "HierarchyEntry";
+            get { return _hierarchyEntries ?? (_hierarchyEntries = HierarchyConfigurationManager.Items.ToList()); }
         }
+
+        public HierarchyEntryRepository(IDataProvider dataProvider) : base(dataProvider) { }
 
         #region Hierarchy Methods
 
         public override void Initialize()
         {
-            var createSql = string.Format(@"CREATE TABLE [{0}].[{1}](
+            SchemaName = ConfigurationManager.AppSettings["NDB.SchemaName"];
+            TableName = ConfigurationManager.AppSettings["NDB.HierarchyEntryTableName"];
+
+            if (!TableExists())
+            {
+                var createSql = string.Format(@"CREATE TABLE [{0}].[{1}](
 	                [id] [int] IDENTITY(1,1) NOT NULL,
 	                [name] [nvarchar](50) NOT NULL,
                     [schema_name] [nvarchar](100) NOT NULL,
@@ -27,7 +38,9 @@ namespace Nanarchy.Data.Mssql
                         ([id] ASC)
                     WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
                 ) ON [PRIMARY]", SchemaName, TableName);
-            DataProvider.ExecuteSql(createSql);
+                DataProvider.ExecuteSql(createSql);
+            }
+
         }
         
         public override HierarchyEntry Get(int id)

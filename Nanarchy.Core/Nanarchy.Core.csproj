@@ -37,15 +37,23 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\HierarchyConfigElement.cs" />
+    <Compile Include="Configuration\HierarchyConfigSection.cs" />
+    <Compile Include="Configuration\HierarchyConfigCollection.cs" />
+    <Compile Include="Configuration\HierarchyConfigurationManager.cs" />
+    <Compile Include="Helpers\Json.cs" />
     <Compile Include="HierarchyEntry.cs" />
     <Compile Include="HierarchyNode.cs" />
     <Compile Include="Interfaces\IDataProvider.cs" />
@@ -53,14 +61,15 @@
     <Compile Include="Interfaces\IHierarchyNodeRepository.cs" />
     <Compile Include="Interfaces\IHierarchyEntryRepository.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
-    <Compile Include="Interfaces\ITarget.cs" />
+    <Compile Include="Interfaces\ITargetData.cs" />
     <Compile Include="Interfaces\ITargetEntryRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryBase.cs" />
+    <Compile Include="TargetBase.cs" />
     <Compile Include="TargetEntry.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Helpers\" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

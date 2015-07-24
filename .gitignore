@@ -7,3 +7,6 @@ Nanarchy.Core/obj/
 *.ncrunchsolution
 *.pfx
 Nanarchy.Data.Mssql/obj/
+Nanarchy.Sample/obj/
+Nanarchy.Sample/bin/
+Nanarchy.Data.Mssql/bin/

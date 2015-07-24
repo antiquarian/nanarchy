@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using Nanarchy.Core;
 using Nanarchy.Core.Interfaces;
@@ -8,14 +9,17 @@ namespace Nanarchy.Data.Mssql
 {
     public class TargetEntryRepository : Repository<TargetEntry>, ITargetEntryRepository
     {
-        public TargetEntryRepository(IDataProvider dataProvider) : base(dataProvider)
-        {
-            SchemaName = "dbo";
-            TableName = "TargetEntry";
-        }
+ 
+        public TargetEntryRepository(IDataProvider dataProvider) : base(dataProvider) { }
+
         public override void Initialize()
         {
-            var createSql = string.Format(@"CREATE TABLE [{0}].[{1}](
+            SchemaName = ConfigurationManager.AppSettings["NDB.SchemaName"];
+            TableName = ConfigurationManager.AppSettings["NDB.TargetEntryTableName"];
+
+            if (!TableExists())
+            {
+                var createSql = string.Format(@"CREATE TABLE [{0}].[{1}](
 	                [id] [int] IDENTITY(1,1) NOT NULL,
 	                [name] [nvarchar](50) NOT NULL,
                     [schema_name] nvarchar(100) NOT NULL,
@@ -24,7 +28,9 @@ namespace Nanarchy.Data.Mssql
                         ([id] ASC)
                     WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
                 ) ON [PRIMARY]", SchemaName, TableName);
-            DataProvider.ExecuteSql(createSql);
+                DataProvider.ExecuteSql(createSql);
+            }
+
         }
         #region Target Methods
         public override TargetEntry Get(int id)
