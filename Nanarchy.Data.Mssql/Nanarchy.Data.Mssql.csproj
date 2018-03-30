@@ -43,7 +43,7 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="UsefulUtilities">
+    <Reference Include="UsefulUtilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e9f2aaaef6c49cf2, processorArchitecture=MSIL">
       <HintPath>..\packages\UsefulUtilities.1.0.1\lib\UsefulUtilities.dll</HintPath>
     </Reference>
   </ItemGroup>

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Reflection;
 using Nanarchy.Core;
 using Nanarchy.Data.Mssql;
 using Nanarchy.Service;
@@ -17,7 +16,6 @@ namespace Nanarchy
             // verify tables
             var dataProvider = new MssqlDataProvider();
             var hierarchyDataProvider = new MssqlHierarchyDataProvider(dataProvider);
-            
             var hierarchyEntryRepository = new HierarchyEntryRepository(dataProvider);
             var targetEntryRepository = new TargetEntryRepository(dataProvider);
             var targetRepository = new TargetRepository(dataProvider);
